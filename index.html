@@ -431,7 +431,7 @@
   <!-- PRELOADER -->
   <div id="preloader">
     <div class="preloader-logo">
-      <img src="logo.png" alt="LM" width="300" height="300">
+      <img src="logo.png" width="300" height="300">
       <div class="word">Ładowanie</div>
     </div>
   </div>
@@ -439,7 +439,7 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <button class="brand-link" id="home-link" type="button" aria-label="Strona główna">
-       <img src="logo.png" alt="LM" width="70" height="70">
+       <img src="logo.png" width="50" height="50">
     <span class="brand">Laboratorium Muzyki</span>
     </button>
     <span class="tagline">#kochamygisa</span>
@@ -516,17 +516,20 @@ const SUBJECTS = {
     lessons: [
       {
         id: "lekcja1",
-        title: "Lekcja Ks 1: Wprowadzenie",
+        title: "Teoria",
         sublessons: [
           {
-            id: "podlekcja1",
+            id: "Trójdźwięki",
             title: "Podlekcja 1",
-            heading: "Czym jest ta platforma?",
-            subtitle: "Krótkie wprowadzenie do sposobu nauki na LM",
-            body: [
-              "Witaj na platformie <strong>Laboratorium Muzyki</strong> — miejscu, w którym nauka odbywa się w przejrzysty i przyjemny sposób. Każda lekcja podzielona jest na mniejsze, łatwe do przyswojenia podlekcje.",
-              "Po lewej stronie znajdziesz listę lekcji. Najedź kursorem na lekcję, aby zobaczyć jej podlekcje, a następnie kliknij wybraną, aby wyświetlić jej treść właśnie tutaj, w głównym obszarze strony.",
-              "Materiały są aktualizowane regularnie, a interfejs zaprojektowano tak, aby skupić Twoją uwagę na treści, a nie na nawigacji."
+            heading: "Czym są trójdźwięki?",
+            subtitle: "Definicja i rodzaje",
+            body: [ "Trójdźwięki - to najprostsze akordy, które składają się z trzech dźwięków nazywanych: pryma (od tego dźwięku pochodzi nazwa całego akordu), tercja i kwinta."
+                   "Trójdźwięk budujemy z interwałów tercji, które różnią się między sobą ich rozmieszczeniem:"
+                   "Od dołu tercja wielka i tercja mała daje trójdźwięk durowy,"
+                   "Tercja mała i tercja wielka daje trójdźwięk molowy,
+"
+
+"
             ]
           },
           {
@@ -542,60 +545,34 @@ const SUBJECTS = {
           }
         ]
       },
-      {
-        id: "lekcja2",
-        title: "Lekcja Ks 2: Podstawy",
-        sublessons: [
-          {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Kluczowe pojęcia",
-            subtitle: "Fundamenty, na których będziemy budować dalszą wiedzę",
-            body: [
-              "W tej części omówimy podstawowe pojęcia niezbędne do zrozumienia kolejnych zagadnień.",
-              "Każde pojęcie zostanie wytłumaczone na prostym przykładzie, abyś mógł łatwo powiązać teorię z praktyką."
-            ]
-          },
-          {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Pierwsze ćwiczenia",
-            subtitle: "Czas przejść od teorii do praktyki",
-            body: [
-              "Najlepszym sposobem na utrwalenie wiedzy są ćwiczenia. W tej podlekcji znajdziesz kilka prostych zadań do samodzielnego rozwiązania.",
-              "Nie martw się, jeśli na początku coś nie wyjdzie — błędy są naturalną częścią procesu nauki."
-            ]
-          }
+      
         ]
       }
     ]
   },
 
   hm: {
-    label: "Hm",
+    label: "Historia Muzyki",
     lessons: [
       {
-        id: "lekcja1",
-        title: "Lekcja Hm 1: Wprowadzenie",
+        id: "Historia Muzyki",
+        title: "Historia Muzyki",
         sublessons: [
           {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Wprowadzenie do przedmiotu Hm",
-            subtitle: "Pierwsze kroki",
+            id: "Epoki muzyczne",
+            title: "Epoki muzyczne",
+            heading: "Epoki muzyczne",
+            subtitle: "Prawie takie, jak literackie",
             body: [
-              "To jest przykładowa treść podlekcji 1 z przedmiotu Hm. Zastąp ten tekst właściwą treścią lekcji.",
-              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
-            ]
+              ]
           },
           {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Rozwinięcie tematu",
-            subtitle: "Druga część wprowadzenia",
+            id: "Antyk",
+            title: "Antyk",
+            heading: "Antyk",
+            subtitle: "Muzyka starożytnych",
             body: [
-              "Tutaj wpisz dalszą część materiału dla przedmiotu Hm.",
-              "Treść można dowolnie rozbudować o kolejne akapity."
+              
             ]
           }
         ]
@@ -604,31 +581,27 @@ const SUBJECTS = {
   },
 
   har: {
-    label: "Har",
+    label: "Harmonia funkcyjna",
     lessons: [
       {
-        id: "lekcja1",
-        title: "Lekcja Har 1: Wprowadzenie",
+        id: "Harmonia",
+        title: "Działy harmonii",
         sublessons: [
           {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Wprowadzenie do przedmiotu Har",
-            subtitle: "Pierwsze kroki",
+            id: "rodzaje harmonii",
+            title: "Rodzaje harmonii",
+            heading: "Rodzaje harmonii",
+            subtitle: "Funkcyjna, modalna i sonorystyczna",
             body: [
-              "To jest przykładowa treść podlekcji 1 z przedmiotu Har. Zastąp ten tekst właściwą treścią lekcji.",
-              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
-            ]
+              ]
           },
           {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Rozwinięcie tematu",
-            subtitle: "Druga część wprowadzenia",
+            id: "Funkcje Harmoniczne",
+            title: "Funkcje Harmoniczne",
+            heading: "Funkcje Harmoniczne",
+            subtitle: "role trójdźwięków na danych stopniach gamy",
             body: [
-              "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
-              "Treść można dowolnie rozbudować o kolejne akapity."
-            ]
+              ]
           }
         ]
       }
@@ -641,24 +614,22 @@ const SUBJECTS = {
        
         sublessons: [
           {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Wprowadzenie do przedmiotu Har",
-            subtitle: "Pierwsze kroki",
+            id: "",
+            title: "",
+            heading: "",
+            subtitle: "",
             body: [
-              "To jest przykładowa treść podlekcji 1 z przedmiotu Har. Zastąp ten tekst właściwą treścią lekcji.",
-              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
+              
             ]
           },
           {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Rozwinięcie tematu",
-            subtitle: "Druga część wprowadzenia",
+            id: "",
+            title: "",
+            heading: "",
+            subtitle: "",
             body: [
-              "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
-              "Treść można dowolnie rozbudować o kolejne akapity."
-            ]
+              "
+              ]
           }
         ]
       }
