@@ -1,19 +1,839 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NS</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratorium Muzyki</title>
+
+<style>
+  /* =========================================================
+     TOKENY / ZMIENNE — pastelowa paleta różu, fioletu, błękitu
+     ========================================================= */
+  :root{
+    --rose:        #f7d6e8;
+    --rose-deep:   #e7a9cf;
+    --violet:      #d9c7f4;
+    --violet-deep: #b79ae8;
+    --sky:         #c6e2f7;
+    --sky-deep:    #8fc2ed;
+    --azure:       #cdeefb;
+
+    --ink:         #3a2f4d;
+    --ink-soft:    #6c5f82;
+    --paper:       #fbf7fd;
+    --paper-deep:  #f3edfa;
+
+    --accent:      #a989d9;
+    --accent-2:    #6fb4e0;
+
+    --shadow-soft: 0 8px 24px rgba(120, 90, 160, 0.12);
+    --shadow-lift: 0 14px 34px rgba(120, 90, 160, 0.22);
+
+    --font-display: 'Fraunces', 'Georgia', serif;
+    --font-body: 'Outfit', 'Segoe UI', sans-serif;
+
+    --nav-h: 68px;
+  }
+
+  @font-face{
+    font-family:'Fraunces';
+    src: local('Georgia');
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family: var(--font-body);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, var(--rose) 0%, transparent 55%),
+      radial-gradient(1000px 600px at 100% 0%, var(--sky) 0%, transparent 55%),
+      linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    overflow-x:hidden;
+  }
+
+  ::selection{ background: var(--violet-deep); color:#fff; }
+
+  /* =========================================================
+     PRELOADER — przyciemniony ekran z logo na 0.5s
+     ========================================================= */
+  #preloader{
+    position:fixed; inset:0; z-index:999;
+    display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(135deg, #2c1f40 0%, #4a3166 55%, #2c1f40 100%);
+    transition: opacity .7s ease, visibility .7s ease;
+  }
+  #preloader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+
+  .preloader-logo{
+    display:flex; flex-direction:column; align-items:center; gap:18px;
+    animation: logoPulse 1.1s ease-in-out infinite alternate;
+  }
+  .preloader-logo .mark{
+    width:96px; height:96px; border-radius:26px;
+    background: linear-gradient(135deg, var(--rose-deep), var(--violet-deep) 55%, var(--sky-deep));
+    box-shadow: 0 0 60px rgba(217, 199, 244, 0.55);
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-display);
+    font-size:40px; font-weight:700; color:#fff;
+  }
+  .preloader-logo .word{
+    font-family: var(--font-display);
+    font-size: 22px; letter-spacing: 0.35em; color:#f3edfa;
+    text-transform:uppercase;
+  }
+  @keyframes logoPulse{
+    from{ transform:scale(1); filter:brightness(1); }
+    to{ transform:scale(1.06); filter:brightness(1.12); }
+  }
+
+  /* =========================================================
+     NAVBAR
+     ========================================================= */
+  .navbar{
+    position:sticky; top:0; z-index:50;
+    height: var(--nav-h);
+    display:flex; align-items:center; gap:14px;
+    padding: 0 26px;
+    background: rgba(251, 247, 253, 0.78);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(183, 154, 232, 0.25);
+  }
+  .navbar .logo-mark{
+    width:38px; height:38px; border-radius:11px;
+    background: linear-gradient(135deg, var(--rose-deep), var(--violet-deep) 55%, var(--sky-deep));
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family: var(--font-display); font-weight:700; font-size:17px;
+    box-shadow: var(--shadow-soft);
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .navbar .logo-mark:hover{ transform: rotate(-6deg) scale(1.08); box-shadow: var(--shadow-lift); }
+
+  .navbar .brand{
+    font-family: var(--font-display);
+    font-weight:700; font-size:21px; letter-spacing:.06em;
+    background: linear-gradient(90deg, var(--violet-deep), var(--sky-deep));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .navbar .tagline{
+    margin-left:6px; font-size:12.5px; color: var(--ink-soft); letter-spacing:.04em;
+    display:none;
+  }
+  @media(min-width:640px){ .navbar .tagline{ display:inline; } }
+
+  /* Kafelki przedmiotów w navbarze */
+  .subject-tiles{
+    display:flex; align-items:center; gap:8px;
+    margin-left: 18px;
+    padding-left: 18px;
+    border-left: 1px solid rgba(183,154,232,0.35);
+  }
+  .subject-tile{
+    font-family: var(--font-body);
+    font-weight:700; font-size:13.5px; letter-spacing:.04em;
+    padding: 8px 16px;
+    border-radius: 12px;
+    color: var(--ink-soft);
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(183,154,232,0.25);
+    cursor:pointer;
+    transition: transform .25s ease, box-shadow .25s ease, background .3s ease, color .25s ease;
+    user-select:none;
+  }
+  .subject-tile:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+    color: var(--ink);
+    background: rgba(255,255,255,0.9);
+  }
+  .subject-tile.active{
+    color:#fff;
+    background: linear-gradient(120deg, var(--rose-deep), var(--violet-deep) 60%, var(--sky-deep));
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+  }
+  @media(max-width: 560px){
+    .navbar .tagline{ display:none; }
+    .subject-tiles{ margin-left:10px; padding-left:10px; gap:6px; }
+    .subject-tile{ padding:7px 11px; font-size:12.5px; }
+  }
+
+  /* =========================================================
+     LAYOUT GŁÓWNY
+     ========================================================= */
+  .app-shell{
+    display:flex;
+    align-items:flex-start;
+    min-height: calc(100vh - var(--nav-h));
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 22px 0;
+    gap: 26px;
+  }
+
+  /* =========================================================
+     SIDEBAR
+     ========================================================= */
+  .sidebar{
+    flex: 0 0 270px;
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(183,154,232,0.28);
+    border-radius: 20px;
+    padding: 18px 14px;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(8px);
+  }
+  .sidebar h2{
+    font-family: var(--font-display);
+    font-size: 14px; text-transform:uppercase; letter-spacing:.14em;
+    color: var(--ink-soft); margin: 4px 8px 14px;
+  }
+
+  .lesson-group{ margin-bottom: 8px; }
+
+  .lesson-tile{
+    position:relative;
+    padding: 13px 16px;
+    border-radius: 14px;
+    font-weight:600; font-size:15px;
+    color: var(--ink);
+    background: linear-gradient(120deg, rgba(247,214,232,.55), rgba(214,199,244,.5));
+    cursor:default;
+    transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .lesson-tile:hover, .lesson-tile.active-parent{
+    transform: translateX(4px);
+    box-shadow: var(--shadow-soft);
+    background: linear-gradient(120deg, rgba(247,214,232,.9), rgba(214,199,244,.85));
+  }
+  .lesson-tile .chev{
+    transition: transform .35s ease;
+    font-size:12px; color: var(--ink-soft);
+  }
+  .lesson-group:hover .chev,
+  .lesson-group.open .chev{ transform: rotate(90deg); }
+
+  .sublesson-list{
+    overflow:hidden;
+    max-height:0;
+    opacity:0;
+    transform: translateY(-4px);
+    transition: max-height .4s ease, opacity .35s ease, transform .35s ease, margin .35s ease;
+    margin-top:0;
+  }
+  .lesson-group:hover .sublesson-list,
+  .lesson-group.open .sublesson-list{
+    max-height: 300px;
+    opacity:1;
+    transform: translateY(0);
+    margin-top:8px;
+  }
+
+  .sub-tile{
+    padding: 10px 16px 10px 30px;
+    margin: 6px 0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight:500;
+    color: var(--ink-soft);
+    background: rgba(255,255,255,0.5);
+    cursor:pointer;
+    border: 1px solid transparent;
+    transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease;
+  }
+  .sub-tile:hover{
+    background: rgba(255,255,255,0.95);
+    color: var(--accent);
+    border-color: rgba(183,154,232,0.4);
+    transform: translateX(3px);
+  }
+  .sub-tile.active{
+    background: linear-gradient(120deg, var(--sky-deep), var(--violet-deep));
+    color:#fff;
+    border-color:transparent;
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* =========================================================
+     GŁÓWNA TREŚĆ — zajmuje najwięcej miejsca
+     ========================================================= */
+  .content-area{
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: calc(100vh - var(--nav-h) - 60px);
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(183,154,232,0.25);
+    border-radius: 24px;
+    padding: 46px 52px 56px;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(6px);
+    position:relative;
+    overflow:hidden;
+  }
+  .content-area::before{
+    content:"";
+    position:absolute; top:-120px; right:-120px;
+    width:320px; height:320px; border-radius:50%;
+    background: radial-gradient(circle, rgba(140,194,237,.35), transparent 70%);
+    pointer-events:none;
+  }
+
+  .lesson-content{
+    animation: contentIn .5s ease;
+    position:relative; z-index:1;
+  }
+  @keyframes contentIn{
+    from{ opacity:0; transform: translateY(14px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  .eyebrow{
+    display:inline-block;
+    font-size:12.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color: #fff;
+    background: linear-gradient(90deg, var(--rose-deep), var(--violet-deep));
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+
+  .lesson-title{
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: var(--ink);
+    line-height:1.15;
+  }
+  .lesson-subtitle{
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin: 0 0 30px;
+    font-weight:500;
+    border-left: 4px solid var(--accent-2);
+    padding-left: 14px;
+  }
+
+  .lesson-body{
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: var(--ink);
+    max-width: 760px;
+  }
+  .lesson-body p{ margin: 0 0 18px; }
+  .lesson-body strong{ color: var(--violet-deep); }
+
+  .welcome-screen{
+    display:flex; flex-direction:column; align-items:flex-start;
+    justify-content:center;
+    min-height: 50vh;
+    gap: 14px;
+  }
+  .welcome-screen .big-mark{
+    width:72px; height:72px; border-radius:20px;
+    background: linear-gradient(135deg, var(--rose-deep), var(--violet-deep) 55%, var(--sky-deep));
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family: var(--font-display); font-weight:700; font-size:30px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 8px;
+  }
+
+  /* =========================================================
+     STOPKA
+     ========================================================= */
+  .site-footer{
+    margin-top: 60px;
+    padding: 50px 24px 36px;
+    background: linear-gradient(135deg, #efe1f7, #dceefb 55%, #fbe3ef);
+    border-top: 1px solid rgba(183,154,232,0.3);
+  }
+  .footer-inner{
+    max-width: 1100px; margin:0 auto;
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:32px;
+  }
+  .footer-col h3{
+    font-family: var(--font-display);
+    font-size:17px; margin: 0 0 12px; color: var(--ink);
+  }
+  .footer-col p, .footer-col a{
+    font-size:14.5px; color: var(--ink-soft); line-height:1.8;
+    text-decoration:none;
+  }
+  .footer-col a{ display:block; transition: color .25s ease, transform .25s ease; }
+  .footer-col a:hover{ color: var(--accent); transform: translateX(3px); }
+  .footer-bottom{
+    text-align:center; margin-top:34px; font-size:13px; color: var(--ink-soft);
+  }
+
+  /* =========================================================
+     RESPONSYWNOŚĆ
+     ========================================================= */
+  @media(max-width: 900px){
+    .app-shell{ flex-direction:column; }
+    .sidebar{ width:100%; position:static; flex:none; }
+    .content-area{ padding: 32px 24px 40px; width:100%; }
+  }
+
+  /* Widok startowy / strona główna — sidebar zostaje puste miejsce, treść się nie rozciąga */
+  .app-shell.home-mode .sidebar{
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .app-shell.home-mode .content-area{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .app-shell.home-mode .welcome-screen{
+    align-items: center;
+    text-align: center;
+    min-height: auto;
+  }
+  .app-shell.home-mode .welcome-screen .lesson-subtitle{
+    border-left: none;
+    padding-left: 0;
+  }
+  .app-shell.home-mode .about-page{
+    max-width: 680px;
+    width: 100%;
+    text-align: left;
+  }
+  .app-shell.home-mode .about-page .eyebrow,
+  .app-shell.home-mode .about-page .lesson-title,
+  .app-shell.home-mode .about-page .lesson-subtitle{
+    text-align: left;
+  }
+
+  .navbar .brand-link{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
 </head>
 <body>
-    <div class="box">
 
-        <h2>‿︵‿⋇⋆✦⋆⋇‿︵‿</h2>
-        <h1>Natalia Szendzielorz</h1>
-        <a href="zadanie13.html" class="button">Przycisk 1</a>
-        <a href="podstrona.html" class="button">Przycisk 2</a>
-        <h2>‿︵‿⋇⋆✦⋆⋇‿︵‿</h2>
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-logo">
+      <img src="logo.png" alt="LM" width="300" height="300">
+      <div class="word">Ładowanie</div>
     </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <button class="brand-link" id="home-link" type="button" aria-label="Strona główna">
+       <img src="logo.png" alt="LM" width="70" height="70">
+    <span class="brand">Laboratorium Muzyki</span>
+    </button>
+    <span class="tagline">#kochamygisa</span>
+    <div class="subject-tiles" id="subject-tiles">
+      <div class="subject-tile" data-subject="onas">O nas</div>
+      <div class="subject-tile" data-subject="ks">Kształcenie słuchu</div>
+      <div class="subject-tile" data-subject="har">Harmonia</div> 
+      <div class="subject-tile" data-subject="aud">audycje</div> 
+      <div class="subject-tile" data-subject="hm">Historia Muzyki</div>
+    </div>
+  </nav>
+
+  <!-- LAYOUT -->
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h2 id="sidebar-title">Lekcje</h2>
+      <div id="sidebar-list"></div>
+    </aside>
+
+    <main class="content-area" id="content-area">
+      <!-- treść wstrzykiwana przez JS -->
+    </main>
+  </div>
+
+  <!-- STOPKA -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h3>LM</h3>
+        <p>Szacuje się, że 1 na 10 000 osób jest obdarzona słuchem absolutnym. Trzeba jednak wziąć pod uwagę to, że tę szczególną zdolność wykrywa się w środowisku muzycznym, a więc istnieje wiele osób nieświadomych swojego słuchu absolutnego.
+        
+   
+      </div>
+      <div class="footer-col">
+        
+      </div>
+      <div class="footer-col">
+        <h3>Kontakt</h3>
+        <a href="laboratorium.muzyki2425@gmail.com">laboratorium.muzyki2425@gmail.com</a>
+        <a href="laboratorium.muzyki@interia.pl">laboratorium.muzyki@interia.pl</a>
+       
+      </div>
+    </div>
+    <div class="footer-bottom">Laboratorium Muzyki</div>
+  </footer>
+
+<script>
+/* =====================================================================
+   ====================  BAZA TREŚCI LEKCJI  =========================
+   =====================================================================
+   TU UZUPEŁNIASZ LEKCJE.
+   Obiekt SUBJECTS ma trzy klucze odpowiadające kafelkom w navbarze:
+   "ks", "hm", "har". Każdy z nich zawiera "label" (nazwa do nagłówka
+   sidebaru) oraz "lessons" — tablicę lekcji w takim samym formacie
+   jak wcześniej.
+
+   Każda lekcja ma pole "title" (nazwa widoczna w sidebarze)
+   oraz "sublessons" — listę podlekcji.
+   Każda podlekcja ma:
+     - title    -> nazwa widoczna w sidebarze (kafelek)
+     - heading  -> tytuł główny w treści
+     - subtitle -> podtytuł w treści
+     - body     -> tablica akapitów (HTML dozwolony, np. <strong>)
+
+   Dodanie nowej lekcji = dodanie nowego obiektu do tablicy "lessons"
+   danego przedmiotu. Dodanie nowego przedmiotu = dodanie nowego klucza
+   do SUBJECTS i odpowiadającego mu kafelka w navbarze (HTML) oraz
+   atrybutu data-subject o tej samej nazwie.
+   ===================================================================== */
+
+const SUBJECTS = {
+  ks: {
+    label: "Ks",
+    lessons: [
+      {
+        id: "lekcja1",
+        title: "Lekcja Ks 1: Wprowadzenie",
+        sublessons: [
+          {
+            id: "podlekcja1",
+            title: "Podlekcja 1",
+            heading: "Czym jest ta platforma?",
+            subtitle: "Krótkie wprowadzenie do sposobu nauki na LM",
+            body: [
+              "Witaj na platformie <strong>Laboratorium Muzyki</strong> — miejscu, w którym nauka odbywa się w przejrzysty i przyjemny sposób. Każda lekcja podzielona jest na mniejsze, łatwe do przyswojenia podlekcje.",
+              "Po lewej stronie znajdziesz listę lekcji. Najedź kursorem na lekcję, aby zobaczyć jej podlekcje, a następnie kliknij wybraną, aby wyświetlić jej treść właśnie tutaj, w głównym obszarze strony.",
+              "Materiały są aktualizowane regularnie, a interfejs zaprojektowano tak, aby skupić Twoją uwagę na treści, a nie na nawigacji."
+            ]
+          },
+          {
+            id: "podlekcja2",
+            title: "Podlekcja 2",
+            heading: "Jak korzystać z materiałów",
+            subtitle: "Wskazówki dotyczące efektywnej nauki",
+            body: [
+              "Zalecamy przechodzenie przez podlekcje w kolejności, w jakiej zostały ułożone — każda kolejna część bazuje na poprzedniej wiedzy.",
+              "Jeśli natkniesz się na pojęcie, którego nie rozumiesz, wróć do wcześniejszej podlekcji lub zapisz pytanie i skonsultuj je z prowadzącym poprzez dane kontaktowe w stopce strony.",
+              "Pamiętaj, że <strong>regularność</strong> jest kluczem do skutecznej nauki — lepiej uczyć się po trochu codziennie niż dużo raz w tygodniu."
+            ]
+          }
+        ]
+      },
+      {
+        id: "lekcja2",
+        title: "Lekcja Ks 2: Podstawy",
+        sublessons: [
+          {
+            id: "podlekcja1",
+            title: "Podlekcja 1",
+            heading: "Kluczowe pojęcia",
+            subtitle: "Fundamenty, na których będziemy budować dalszą wiedzę",
+            body: [
+              "W tej części omówimy podstawowe pojęcia niezbędne do zrozumienia kolejnych zagadnień.",
+              "Każde pojęcie zostanie wytłumaczone na prostym przykładzie, abyś mógł łatwo powiązać teorię z praktyką."
+            ]
+          },
+          {
+            id: "podlekcja2",
+            title: "Podlekcja 2",
+            heading: "Pierwsze ćwiczenia",
+            subtitle: "Czas przejść od teorii do praktyki",
+            body: [
+              "Najlepszym sposobem na utrwalenie wiedzy są ćwiczenia. W tej podlekcji znajdziesz kilka prostych zadań do samodzielnego rozwiązania.",
+              "Nie martw się, jeśli na początku coś nie wyjdzie — błędy są naturalną częścią procesu nauki."
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  hm: {
+    label: "Hm",
+    lessons: [
+      {
+        id: "lekcja1",
+        title: "Lekcja Hm 1: Wprowadzenie",
+        sublessons: [
+          {
+            id: "podlekcja1",
+            title: "Podlekcja 1",
+            heading: "Wprowadzenie do przedmiotu Hm",
+            subtitle: "Pierwsze kroki",
+            body: [
+              "To jest przykładowa treść podlekcji 1 z przedmiotu Hm. Zastąp ten tekst właściwą treścią lekcji.",
+              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
+            ]
+          },
+          {
+            id: "podlekcja2",
+            title: "Podlekcja 2",
+            heading: "Rozwinięcie tematu",
+            subtitle: "Druga część wprowadzenia",
+            body: [
+              "Tutaj wpisz dalszą część materiału dla przedmiotu Hm.",
+              "Treść można dowolnie rozbudować o kolejne akapity."
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  har: {
+    label: "Har",
+    lessons: [
+      {
+        id: "lekcja1",
+        title: "Lekcja Har 1: Wprowadzenie",
+        sublessons: [
+          {
+            id: "podlekcja1",
+            title: "Podlekcja 1",
+            heading: "Wprowadzenie do przedmiotu Har",
+            subtitle: "Pierwsze kroki",
+            body: [
+              "To jest przykładowa treść podlekcji 1 z przedmiotu Har. Zastąp ten tekst właściwą treścią lekcji.",
+              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
+            ]
+          },
+          {
+            id: "podlekcja2",
+            title: "Podlekcja 2",
+            heading: "Rozwinięcie tematu",
+            subtitle: "Druga część wprowadzenia",
+            body: [
+              "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
+              "Treść można dowolnie rozbudować o kolejne akapity."
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  aud: {
+    label: "aud",
+    lessons: [
+      {
+       
+        sublessons: [
+          {
+            id: "podlekcja1",
+            title: "Podlekcja 1",
+            heading: "Wprowadzenie do przedmiotu Har",
+            subtitle: "Pierwsze kroki",
+            body: [
+              "To jest przykładowa treść podlekcji 1 z przedmiotu Har. Zastąp ten tekst właściwą treścią lekcji.",
+              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
+            ]
+          },
+          {
+            id: "podlekcja2",
+            title: "Podlekcja 2",
+            heading: "Rozwinięcie tematu",
+            subtitle: "Druga część wprowadzenia",
+            body: [
+              "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
+              "Treść można dowolnie rozbudować o kolejne akapity."
+            ]
+          }
+        ]
+      }
+    ]
+  }
+ 
+};
+
+/* ===================================================================== */
+
+let currentSubject = "ks";
+
+const appShell = document.querySelector('.app-shell');
+const homeLink = document.getElementById('home-link');
+const sidebarTitle = document.getElementById('sidebar-title');
+const sidebarList = document.getElementById('sidebar-list');
+const contentArea = document.getElementById('content-area');
+const subjectTilesEl = document.getElementById('subject-tiles');
+
+function setActiveSubjectTile(){
+  subjectTilesEl.querySelectorAll('.subject-tile').forEach(t => {
+    t.classList.toggle('active', t.dataset.subject === currentSubject);
+  });
+}
+
+function renderSidebar(){
+  const subject = SUBJECTS[currentSubject];
+  sidebarTitle.textContent = "Lekcje — " + subject.label;
+  sidebarList.innerHTML = '';
+
+  subject.lessons.forEach(lesson => {
+    const group = document.createElement('div');
+    group.className = 'lesson-group';
+
+    const tile = document.createElement('div');
+    tile.className = 'lesson-tile';
+    tile.innerHTML = `<span>${lesson.title}</span><span class="chev">›</span>`;
+    group.appendChild(tile);
+
+    const subList = document.createElement('div');
+    subList.className = 'sublesson-list';
+
+    lesson.sublessons.forEach(sub => {
+      const subTile = document.createElement('div');
+      subTile.className = 'sub-tile';
+      subTile.textContent = sub.title;
+      subTile.dataset.lessonId = lesson.id;
+      subTile.dataset.subId = sub.id;
+      subTile.addEventListener('click', () => selectSublesson(lesson, sub, subTile));
+      subList.appendChild(subTile);
+    });
+
+    group.appendChild(subList);
+    sidebarList.appendChild(group);
+  });
+}
+
+function selectSublesson(lesson, sub, tileEl){
+  document.querySelectorAll('.sub-tile.active').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lesson-tile.active-parent').forEach(el => el.classList.remove('active-parent'));
+  tileEl.classList.add('active');
+  tileEl.closest('.lesson-group').querySelector('.lesson-tile').classList.add('active-parent');
+
+  const bodyHtml = sub.body.map(p => `<p>${p}</p>`).join('');
+
+  contentArea.innerHTML = `
+    <div class="lesson-content">
+      <span class="eyebrow">${lesson.title}</span>
+      <h1 class="lesson-title">${sub.heading}</h1>
+      <p class="lesson-subtitle">${sub.subtitle}</p>
+      <div class="lesson-body">${bodyHtml}</div>
+    </div>
+  `;
+
+  /* Na telefonie: po wybraniu podlekcji przewiń do obszaru treści */
+  if (window.innerWidth <= 900){
+    contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function renderWelcome(){
+  const subject = SUBJECTS[currentSubject];
+  contentArea.innerHTML = `
+    <div class="welcome-screen lesson-content">
+      <img src="logo.png" alt="LM" width="70" height="70">
+      <h1 class="lesson-title">Witaj na platformie Laboratorium Muzyki</h1>
+      <p class="lesson-subtitle">Wybierz lekcję z przedmiotu „${subject.label}” po lewej stronie, aby rozpocząć naukę</p>
+      <p class="lesson-body">Najedź kursorem na jedną z lekcji w panelu bocznym, a następnie kliknij wybraną podlekcję, aby zobaczyć jej treść w tym miejscu.</p>
+    </div>
+  `;
+}
+
+function renderHomeView(){
+  document.querySelectorAll('.sub-tile.active').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lesson-tile.active-parent').forEach(el => el.classList.remove('active-parent'));
+
+  appShell.classList.add('home-mode');
+
+  contentArea.innerHTML = `
+    <div class="welcome-screen lesson-content">
+      <img src="logo.png" alt="LM" width="300" height="300">
+      <h1 class="lesson-title">Witaj na platformie Laboratorium Muzyki</h1>
+      <p class="lesson-subtitle">Wybierz lekcję z przedmiotu po lewej stronie, aby rozpocząć naukę</p>
+      <p class="lesson-body">Najedź kursorem na jedną z lekcji w panelu bocznym, a następnie kliknij wybraną podlekcję, aby zobaczyć jej treść w tym miejscu.</p>
+    </div>
+  `;
+}
+
+function showSubjectLayout(){
+  appShell.classList.remove('home-mode');
+}
+
+/* ===== "O nas" — strona bez sidebaru, tekst do uzupełnienia ===== */
+function renderAboutView(){
+  document.querySelectorAll('.sub-tile.active').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lesson-tile.active-parent').forEach(el => el.classList.remove('active-parent'));
+
+  appShell.classList.add('home-mode');
+
+  contentArea.innerHTML = `
+    <div class="lesson-content about-page">
+      <span class="eyebrow">O nas</span>
+      <h1 class="lesson-title">Poznaj nasze uniwersum</h1>
+      <p class="lesson-subtitle">Kim jesteśmy i dlaczego powstała ta platforma?</p>
+      <div class="lesson-body">
+        <p>Nasze Laboratorium powstało w celu dzielenia się wiedzą muzyczną z wszystkimi, którzy są zainteresowani tym tematem. Od samego początku byłyśmy nastawione na pomaganie w nauce muzykom lub amatorom mającym takie zainteresowania. Nasze materiały są tworzone przede wszystkim z myślą o niesieniu pomocy i dzieleniu się naszą wiedzą i doświadczeniem z tymi, których przerasta ilość materiału, który trzeba przyswoić i oswoić się z nim. Wiemy,
+ że są w szkołach muzycznych osoby, które mogą mieć trudności w zrozumieniu niektórych zagadnień. Jest też duża szansa, że część z Was, która ma takie problemy lub braki, może wstydzić się prosić o pomoc. Może też być tak,
+ że dotychczasowe źródła, z których korzystaliście, nie przekazywały tych informacji w zrozumiały i ciekawy sposób.
+</p>
+        <p style="color: #FF66C4;">Tutaj właśnie, całe na różowo, wkraczamy My - uczennice szkoły muzycznej, które oferują tę wiedzę w prosty i przystępny sposób.</p>
+        <p>Znajdziecie tutaj dużo grafik wyjaśniających każde omawiane zagadnienie, a same notatki są napisane bardzo prostym językiem.</p>
+        <p>Zebrane tutaj materiały są efektem naszej kilkumiesięcznej działalności w mediach społecznościowych. Jako Laboratorium muzyki mamy swoje konta na Instagramie oraz TikToku, gdzie oprócz zabawnych filmików, publikujemy wyjaśnienia opisywanej teorii w praktyce, jak i krótkie streszczenia notatek znajdujących się tutaj. Na kanale YouTube możecie znaleźć krótkie filmiki promujące naszą szkołę - Zespół Szkół Muzycznych I i II stopnia w Rudzie Śląskiej.</p>
+        <p>Na stronie umieściłyśmy zadania interaktywne, które pomogą wam w doskonaleniu swojego słuchu i swojej wiedzy.</p>
+      </div>
+    </div>
+  `;
+}
+
+function switchSubject(subjectKey){
+  showSubjectLayout();
+
+  if (subjectKey === "onas"){
+    currentSubject = subjectKey;
+    setActiveSubjectTile();
+    renderAboutView();
+    return;
+  }
+
+  if (subjectKey === currentSubject){
+    renderSidebar();
+    renderWelcome();
+    return;
+  }
+  currentSubject = subjectKey;
+  setActiveSubjectTile();
+  renderSidebar();
+  renderWelcome();
+}
+
+subjectTilesEl.querySelectorAll('.subject-tile').forEach(tile => {
+  tile.addEventListener('click', () => switchSubject(tile.dataset.subject));
+});
+
+homeLink.addEventListener('click', renderHomeView);
+
+setActiveSubjectTile();
+renderSidebar();
+renderHomeView();
+
+/* PRELOADER — 0.5s przyciemnionego ekranu z logo, potem płynne przejście */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hide');
+  }, 500);
+});
+</script>
 </body>
 </html>
