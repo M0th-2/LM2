@@ -446,8 +446,7 @@
     <div class="subject-tiles" id="subject-tiles">
       <div class="subject-tile" data-subject="onas">O nas</div>
       <div class="subject-tile" data-subject="ks">Kształcenie słuchu</div>
-      <div class="subject-tile" data-subject="har">Harmonia</div> 
-      <div class="subject-tile" data-subject="aud">audycje</div> 
+      <div class="subject-tile" data-subject="aud">Audycje Muzyczne</div> 
       <div class="subject-tile" data-subject="hm">Historia Muzyki</div>
     </div>
   </nav>
@@ -512,60 +511,260 @@
 
 const SUBJECTS = {
   ks: {
-    label: "Ks",
+    label: "Kształcenie słuchu",
     lessons: [
       {
-        id: "lekcja1",
-        title: "Lekcja Ks 1: Wprowadzenie",
+        id: "wszystkie",
         sublessons: [
-          {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Czym jest ta platforma?",
-            subtitle: "Krótkie wprowadzenie do sposobu nauki na LM",
-            body: [
-              "Witaj na platformie <strong>Laboratorium Muzyki</strong> — miejscu, w którym nauka odbywa się w przejrzysty i przyjemny sposób. Każda lekcja podzielona jest na mniejsze, łatwe do przyswojenia podlekcje.",
-              "Po lewej stronie znajdziesz listę lekcji. Najedź kursorem na lekcję, aby zobaczyć jej podlekcje, a następnie kliknij wybraną, aby wyświetlić jej treść właśnie tutaj, w głównym obszarze strony.",
-              "Materiały są aktualizowane regularnie, a interfejs zaprojektowano tak, aby skupić Twoją uwagę na treści, a nie na nawigacji."
-            ]
-          },
-          {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Jak korzystać z materiałów",
-            subtitle: "Wskazówki dotyczące efektywnej nauki",
-            body: [
-              "Zalecamy przechodzenie przez podlekcje w kolejności, w jakiej zostały ułożone — każda kolejna część bazuje na poprzedniej wiedzy.",
-              "Jeśli natkniesz się na pojęcie, którego nie rozumiesz, wróć do wcześniejszej podlekcji lub zapisz pytanie i skonsultuj je z prowadzącym poprzez dane kontaktowe w stopce strony.",
-              "Pamiętaj, że <strong>regularność</strong> jest kluczem do skutecznej nauki — lepiej uczyć się po trochu codziennie niż dużo raz w tygodniu."
-            ]
-          }
-        ]
-      },
-      {
-        id: "lekcja2",
-        title: "Lekcja Ks 2: Podstawy",
-        sublessons: [
-          {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Kluczowe pojęcia",
-            subtitle: "Fundamenty, na których będziemy budować dalszą wiedzę",
-            body: [
-              "W tej części omówimy podstawowe pojęcia niezbędne do zrozumienia kolejnych zagadnień.",
-              "Każde pojęcie zostanie wytłumaczone na prostym przykładzie, abyś mógł łatwo powiązać teorię z praktyką."
-            ]
-          },
-          {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Pierwsze ćwiczenia",
-            subtitle: "Czas przejść od teorii do praktyki",
-            body: [
-              "Najlepszym sposobem na utrwalenie wiedzy są ćwiczenia. W tej podlekcji znajdziesz kilka prostych zadań do samodzielnego rozwiązania.",
-              "Nie martw się, jeśli na początku coś nie wyjdzie — błędy są naturalną częścią procesu nauki."
-            ]
-          }
+  {
+  id: "intervaly",
+  title: "Interwały",
+  heading: "Interwały",
+  subtitle: "Odległości między dźwiękami w muzyce",
+  body: [
+    "<strong>Interwały proste</strong> - Interwały w obrębie oktawy nazywamy prostymi a interwały wykraczające poza oktawę - <strong>złożonymi.</strong>",
+    "<strong>Konsonanse</strong> - to interwały zgodnie brzmiące. Dzielą się na <b> doskonałe</b> (pryma, oktawa, kwarta czysta i kwinta czysta) i <b>niedoskonałe</b> (tercja mała, tercja wielka, seksta mała, seksta wielka).",
+    "<strong>Dysonanse</strong> to interwały niezgodnie brzmiące (brzmią ostro, drażnią ucho). Zaliczamy do nich sekundę małą, sekundę wielką, septymę małą, septymę wielką oraz trytony (kwarta zwiększona i kwinta zmniejszona). W interwałach seksty i większych znak chromatyczny piszemy jeden pod drugim w linii pionowej. W interwałach mniejszych - trochę skośnie, górny znak bliżej nuty.",
+    "<strong>Interwał charakterystyczny</strong>to interwał zwiększony lub zmniejszony",
+    `<table style="
+        width:100%;
+        border-collapse:collapse;
+        font-size:15px;
+        margin:28px 0 10px;
+        border-radius:16px;
+        overflow:hidden;
+        box-shadow:0 4px 20px rgba(120,90,160,0.13);
+      ">
+      <thead>
+        <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Interwał</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Symbol</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Rozmiar (odległość półtonów)</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${[
+          ["Pryma czysta",       "1",   "0"],
+          ["Sekunda mała",       "2>",  "1"],
+          ["Sekunda wielka",     "2<",  "2"],
+          ["Tercja mała",        "3<",  "3"],
+          ["Tercja wielka",      "3>",  "4"],
+          ["Kwarta czysta",      "4",   "5"],
+          ["Tryton",             "4< / 5>",  "6"],
+          ["Kwinta czysta",      "5",   "7"],
+          ["Seksta mała",        "6>",  "8"],
+          ["Seksta wielka",      "6<",  "9"],
+          ["Septyma mała",       "7>",  "10"],
+          ["Septyma wielka",     "7<",  "11"],
+          ["Oktawa czysta",      "8",   "12"],
+        ].map(([name, short, semi], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255)' : 'rgba(217,199)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${name}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${short}</td>
+            <td style="padding:11px 16px;text-align:center;">${semi}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+    "<strong>Interwały złożone</strong> - Interwałem złożonym nazywamy interwał wykraczający poza oktawę. Jest to interwał, który składa się z oktawy i interwału prostego.",
+`<table style="
+        width:100%;
+        border-collapse:collapse;
+        font-size:15px;
+        margin:28px 0 10px;
+        border-radius:16px;
+        overflow:hidden;
+        box-shadow:0 4px 20px rgba(120,90,160,0.13);
+      ">
+      <thead>
+        <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Interwał</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Symbol</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Rozmiar (odległość półtonów)</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${[
+          ["Nonna mała",  "9>",   "13"],
+          ["Nonna wielka", "9",  "14"],
+          ["Decyma mała",  "10>",  "15"],
+          ["Decyma wielka","10",  "16"],
+          ["Undecyma",     "11",  "17"],
+          ["Duodecyma",    "12",   "18"],
+          ["Tridecyma",    "13",  "19"],
+          ["Kwintdecymy",  "14",   "20"],
+          ["(podwójna oktawa)", "15",  "21"],
+
+        ].map(([name, short, semi], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255)' : 'rgba(217,199)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${name}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${short}</td>
+            <td style="padding:11px 16px;text-align:center;">${semi}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+   "<strong>Przekształcenie interwału</strong> - to zmiana rozmiaru interwału za pomocą odpowiedniego znaku chromatycznego",
+   "<strong>Przeistoczenie interwału</strong> - polega na zbudowaniu interwału równoważnego enharmonicznie.",
+   "<h2>Enharmonia</h2> polega na zmianie pisowni i nazwy dźwięku bez zmiany jego brzmienia. Dźwięki o różnej nazwie i pisowni, będące na różnych stopniach, posiadające tę samą wysokość nazywamy dźwiękami enharmonicznymi lub enharmonicznie równoważnymi."
+  ]
+},
+{   id: "Klucze",
+  title: "Klucze",
+  heading: "Klucze muzyczne",
+  subtitle: "Zapis i nazewnictwo Kluczy",
+  body: [
+    "Klucz to znak, który stawiamy na początku systemu liniowego. Wyznacza on położenie na pięciolinii dźwięku zwanego kluczowym. Rozróżniamy rodzaje kluczy: G, F oraz C",
+    `<div style="display:flex;flex-direction:column;gap:12px;margin:24px 0;">
+      ${[
+      { src: "https://placehold.co/100x100/6fb4e0/3a2f4d?text=G", opis: "<strong><h2>Klucze C</h2></strong>" },
+        { src: "K1.png", opis: "Klucz dyszkantowy" },
+        { src: "K2.png", opis: "Klucz wiolinowy" },
+        { src: "https://placehold.co/100x100/a989d9/3a2f4d?text=F", opis: "<strong><h2>Klucze F</h2></strong>" },
+        { src: "K3.png", opis: "Klucz barytonowy" },
+        { src: "K4.png", opis: "Klucz basowy" },
+        { src: "K5.png", opis: "Klucz subbasowy" },
+        { src: "https://placehold.co/100x100/e7a9cf/3a2f4d?text=C ", opis: "<strong><h2>Klucze C</h2></strong>" },
+        { src: "K6.png", opis: "Klucz sopranowy" },
+        { src: "K7.png", opis: "Klucz mezzosopranowy" },
+        { src: "K8.png", opis: "Klucz altowy" },
+        { src: "K9.png", opis: "Klucz tenorowy" },
+      ].map(({ src, opis }) => `
+        <div style="
+          display:flex;
+          align-items:center;
+          gap:18px;
+          padding:10px 16px;
+          border-radius:14px;
+          box-shadow:0 2px 10px rgba(120,90,160,0.07);
+          transition:transform .25s ease;
+          border:1px solid rgba(183,154,232,0.2);
+          
+        ">
+          <img
+            src="${src}"
+            width="80"
+            height="100"
+           
+            alt="${opis}"
+          >
+          <span style="font-size:15px;font-weight:500;color:#3a2f4d;">${opis}</span>
+        </div>
+      `).join('')}
+    </div>`,
+    "Klucze umieszczano w różnych miejscach systemu liniowego, w zależności od tego, dla jakiego głosu był przeznaczony.",
+    "Obecnie jednak odeszło się od używania większości tych kluczy, aby poprawić czytelność zapisu.",
+    "<B>Ciekwostka</b>",
+    "Jak wspominaliśmy, każdy klucz swoim kształtem wyznacza położenie nuty kluczowej. Kształty te pochodzą od liter greckich umieszczanych dawniej na początku linii. Wybór tych liter nie był przypadkowy - pod nimi w tonacjach kościelnych znajdowały się półtony.",
+  ] },
+ {  id: "Skale",
+  title: "Skale",
+  heading: "Skale, Gamy Tonacje",
+  subtitle: "Porządek dźwięków",
+  body: [
+    "to wybór dźwięków ułożonych według stałego schematu w obrębie oktawy, z określonym dźwiękiem centralnym. Podstawą Europejskiej muzyki są skale systemu tonalnego, skale siedmiostopniowe (w których ósmy dźwięk jest powtórzeniem pierwszego w odległości oktawy). Są to: skala majorowa (durowa) oraz skala minorowa (molowa).",
+    "Skalę rozpoczynającą sie od określonego dźwięku nazywamy gamą. Jest to skala z określonym co do wysokości materiałem dźwiękowym. Wszystkie stopnie gamy mają swoje określone 'funkcje', tak więc mamy:",
+    `<table style="
+        width:100%;
+        border-collapse:collapse;
+        font-size:15px;
+        margin:28px 0 10px;
+        border-radius:16px;
+        overflow:hidden;
+        box-shadow:0 4px 20px rgba(120,90,160,0.13);
+      ">
+      <thead>
+        <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Stopień</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Nazwa</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${[
+          ["I",  "tonika (T) - to punkt centralny gamy"],
+          ["II",  "dźwięk prowadzący w dół"],
+          ["III",  "medianta"],
+          ["IV",  "subdominanta (S) czyli dominanta dolna (sub = pod)"],
+          ["V",  "dominanta (D), z łaciny dominus = dominujący"],
+          ["VI",  "submedianta"],
+          ["VII",  "dźwięk prowadzącyw w górę (o silnym ciążeniu)"],
+          ["VIII",  "= powtórzenie I"],
+
+        ].map(([Stopień, Nazwa], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255)' : 'rgba(217)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${Stopień}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${Nazwa}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+    "<H1>Tonacja</h1>",
+    "całokształt stosunków między toniką, jak punktem centralnym, a poszczególnymi stopniami gamy. Kiedy materiałem dźwiękowym danego utworu jest określona gama, mówimy, że utwór jest utrzymany w tej tonacji.",
+    "<H1>Diatonika</h1>",
+    "to zasada posługiwania się wyłącznie dźwiękami składowymi określonej gamy - dźwiękami gamowłaściwymi. Jeśli podwyższymy lub obniżymy dźwięk gamowłaściwy za pomocą znaku przynutowego, nazywamy takie zjawisko alteracją.",
+    "<H1>Chromatyka</h1>",
+    "to zasada takiego doboru dźwięków, aby w szeregu oprócz dźwięków gamowłaściwymi zastosować ich obniżenia lub podwyższenia za pomocą znaków przynutowych, aby postępowały po sobie półtonami.",
+
+  ]},
+  {  id: "Rytm",
+  title: "Rytm",
+  heading: "Rytm",
+  subtitle: "Porządek dźwięków i ciszy w czasie",
+  body: [
+    "Oprócz wysokości dźwięków, do czytania nut potrzebna jest też znajomość wartości rytmicznych. Kierunek laseczek nie ma znaczenia dla wartości, jest to zwyczajnie element ortografii.",
+    "<b>Przyjmuje się, że na pięciolinii od trzeciej linii wzwyż laseczki zapisujemy w dół, a poniżej trzeciej linii - w górę.</b>",
+    '<img src="N1.png" alt="laseczki">',
+    "<u>Cała nuta</u>",
+    "Zajmuje 4 wartości i jest najdłuższą nutą.",
+    '<img src="N2.png" alt="nuty">',
+    "<u>Półnuta</u>",
+    "Trwa przez dwie wartości, a więc jest połową całej nuty - to znaczy że w całej nucie mieszczą się one dwie.",
+    '<img src="N3.png" alt="nuty">',
+    "<u>Ćwierćnuta</u>",
+    "Zajmuje jedną miarę, co oznacza, że w całej nucie mieszczą się cztery ćwierćnuty, a w półnucie dwie.",
+    '<img src="N4.png" alt="nuty">',
+    "<u>Ósemka</u>",
+    "Analogicznie jest to połowa ćwierćnuty, w półnucie mieszczą się cztery, a w całej nucie – osiem.",
+    '<img src="N5.png" alt="nuty">',
+    "<u>Szesnastka</u>",
+    "To ostatnia z tych najczęściej używanych podstawowych wartości, która, jak można się domyślić, jest połową ósemki,",
+    '<img src="N6.png" alt="nuty">',
+    "<i>a więc w ćwierćnucie mieszczą się cztery, w półnucie - osiem, w całej nucie - szesnaście. To właśnie z powodu tego, że mieści się ich szesnaście w całej nucie, wzięła się nazwa.</i>",
+    '<img src="N7.png" alt="nuty">',
+    "<b>Jeśli przy nucie z jej prawej strony doda się kropkę, oznacza to wydłużenie jej trwania o połowę.</b>",
+    "Przykładowo, jeśli do ćwierćnuty dodamy kropkę, będzie ona trwała tyle, co ćwierćnuta i ósemka.",
+    "Skoro to już mamy wyjaśnione, przechodzimy do omawiania grup. Czytanie ich w dużej mierze opiera się na tym, co już wiemy - chodzi teraz jedynie o to, żeby umieć rozpoznać te wartości połączone.",
+    "Kombinacji jest bardzo wiele, więc nie będziemy ich wszystkich wypisywać, podamy jedynie parę przykładów:",
+    "<b>ósemka i dwie szesnastki</b>, które łącznie trwają tyle, co jedna ćwierćnuta,",
+    '<img src="N8.png" alt="nuty">',
+    "<b>ósemka z kropką i szesnastka</b>, co trwa dokładnie tyle samo,",
+    '<img src="N9.png" alt="nuty">',
+    "<b>ćwierćnuta z kropką i ósemka</b>, które trwają z kolei tyle, co półnuta.",
+    '<img src="N10.png" alt="nuty">',
+    "Istnieją jeszcze rytmy nieregularne, polegające na tym, że daną wartość zamiast na dwa, cztery i tak dalej, dzielimy na trzy, pięć...",
+    "Ważne jest jednak, aby przy rytmach nieregularnych pamiętać o zapisaniu przy belce grupy cyfry oznaczającej, ile nut znajduje się w tej grupie.",
+    "<u>Jeśli dane wartości nie posiadają wiązania - cyfrę umieszczamy w klamrze nad nutami.</u>",
+    '<img src="N11.png" alt="nuty">',
+    "<strong><H1>PAUZY</H1></strong>",
+    "Pauzy to bardzo prosty temat - zapis, gdy zamiast jakiejś nuty zwyczajnie ma być cisza.",
+    "Pauzy również jednak mają swoje wartości, które odpowiadają tym nutom, o których była mowa w lekcji o rytmie.",
+    '<img src="N12.png" alt="nuty">',
+    "<strong><H1>METRUM</H1></strong>",
+    "Skoro omówiliśmy już wartości rytmiczne, teraz przejdziemy do tego, w jaki sposób ich używać.",
+    "Nuty są zapisywane w taktach, które mają określone metrum.",
+    "Metrum jest zaznaczane na początku utworu, a czasem - jeśli następuje zmiana - również w trakcie kompozycji. Określa ono, ile i jakich wartości rytmicznych mieści się w jednym takcie.",
+    '<img src="N13.png" alt="nuty">',
+    "<b>Metrum zapisuje się trochę jak ułamek, tylko bez kreski ułamkowej. Dolna liczba mówi o tym, w jakich wartościach liczy się ten takt, a górna - ile ich ma być.</b>",
+    "Przykładowo, jeśli na dole jest 4, a u góry 3, to znaczy, że w takcie mogą być trzy ćwierćnuty lub ich równowartości. (np. sześć ósemek).",
+     '<img src="N14.png" alt="nuty">',
+
+   
+
+
+
+
+  ]
+    }
         ]
       }
     ]
@@ -585,7 +784,8 @@ const SUBJECTS = {
             subtitle: "Pierwsze kroki",
             body: [
               "To jest przykładowa treść podlekcji 1 z przedmiotu Hm. Zastąp ten tekst właściwą treścią lekcji.",
-              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
+              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji.",
+              '<img src="nuty.png" alt="nuty" width="500" height="600">'
             ]
           },
           {
@@ -603,58 +803,32 @@ const SUBJECTS = {
     ]
   },
 
-  har: {
-    label: "Har",
-    lessons: [
-      {
-        id: "lekcja1",
-        title: "Lekcja Har 1: Wprowadzenie",
-        sublessons: [
-          {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Wprowadzenie do przedmiotu Har",
-            subtitle: "Pierwsze kroki",
-            body: [
-              "To jest przykładowa treść podlekcji 1 z przedmiotu Har. Zastąp ten tekst właściwą treścią lekcji.",
-              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
-            ]
-          },
-          {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Rozwinięcie tematu",
-            subtitle: "Druga część wprowadzenia",
-            body: [
-              "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
-              "Treść można dowolnie rozbudować o kolejne akapity."
-            ]
-          }
-        ]
-      }
-    ]
-  },
   aud: {
-    label: "aud",
+    label: "Audycje Muzyczne",
     lessons: [
       {
        
         sublessons: [
           {
-            id: "podlekcja1",
-            title: "Podlekcja 1",
-            heading: "Wprowadzenie do przedmiotu Har",
-            subtitle: "Pierwsze kroki",
+            id: "Rodzaje Muzyki",
+            title: "Rodzaje Muzyki",
+            heading: "Rodzaje Muzyki",
+            subtitle: "Rodzaje Muzyki",
             body: [
-              "To jest przykładowa treść podlekcji 1 z przedmiotu Har. Zastąp ten tekst właściwą treścią lekcji.",
-              "Każdy przedmiot ma własny, niezależny zestaw lekcji i podlekcji."
+              "Słowo <i>muzyka</i> jest niesamowicie szerokim określeniem. Obejmuje tyle zagadnień, że nad studiowniem choć części z nich ludzie spędzają nieraz wręcz całe życie. Jest to sztuka z jednej strony ujmowana w jakieś ramy, określana przyjętymi zasadami, a jednocześnie wychodząca daleko poza nie.",
+              "My skupiamy się tutaj na teoretycznej jej części, w praktyce jednak istnieje ona właśnie po to, by móc wyrazić swoje myśli bez używania słów, przekazywać emocje bez żadnych ograniczeń, a można to robić na tak wiele różnych sposobów. Każdy może odnaleźć się w czymś trochę (lub bardzo) innym.",
+              "Jak więc - i tu znów wracamy do teorii - możemy podzielić muzykę? Jakie możemy wyróżnić jej rodzaje i czym one się charakteryzują?",
+              "<b>Ze względu na charakter, może być ona:</b>",
+              "<ul><li>Poważna- często nazywana muzyką klasyczną</li><li>Rozrywkowa- taka, jaką możemy usłyszeć chociażby w radiu</li></ul>",
+              "<b>Ze względu na aparat wykonawczy</b> czyli kto ją wykonuje, może być:",
+              "<ul><li>Wokalna:solowa, zespołowa (inaczej kameralna), chóralna</li><li>Instrumentalna:solowa, zespołowa (kameralna), orkiestrowa</li><li>Wokalno-instrumentalna</li></ul>"
             ]
           },
           {
-            id: "podlekcja2",
-            title: "Podlekcja 2",
-            heading: "Rozwinięcie tematu",
-            subtitle: "Druga część wprowadzenia",
+            id: "Rodzaje Melodii",
+            title: "Rodzaje Melodii",
+            heading: "Rodzaje Melodii",
+            subtitle: "Rodzaje Melodii",
             body: [
               "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
               "Treść można dowolnie rozbudować o kolejne akapity."
@@ -690,50 +864,32 @@ function renderSidebar(){
   sidebarList.innerHTML = '';
 
   subject.lessons.forEach(lesson => {
-    const group = document.createElement('div');
-    group.className = 'lesson-group';
-
-    const tile = document.createElement('div');
-    tile.className = 'lesson-tile';
-    tile.innerHTML = `<span>${lesson.title}</span><span class="chev">›</span>`;
-    group.appendChild(tile);
-
-    const subList = document.createElement('div');
-    subList.className = 'sublesson-list';
-
     lesson.sublessons.forEach(sub => {
       const subTile = document.createElement('div');
       subTile.className = 'sub-tile';
       subTile.textContent = sub.title;
-      subTile.dataset.lessonId = lesson.id;
-      subTile.dataset.subId = sub.id;
+      subTile.style.paddingLeft = '16px'; // usuń wcięcie podlekcji, teraz są na głównym poziomie
       subTile.addEventListener('click', () => selectSublesson(lesson, sub, subTile));
-      subList.appendChild(subTile);
+      sidebarList.appendChild(subTile);
     });
-
-    group.appendChild(subList);
-    sidebarList.appendChild(group);
   });
 }
 
 function selectSublesson(lesson, sub, tileEl){
   document.querySelectorAll('.sub-tile.active').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.lesson-tile.active-parent').forEach(el => el.classList.remove('active-parent'));
   tileEl.classList.add('active');
-  tileEl.closest('.lesson-group').querySelector('.lesson-tile').classList.add('active-parent');
 
   const bodyHtml = sub.body.map(p => `<p>${p}</p>`).join('');
 
   contentArea.innerHTML = `
     <div class="lesson-content">
-      <span class="eyebrow">${lesson.title}</span>
+      <span class="eyebrow">${SUBJECTS[currentSubject].label}</span>
       <h1 class="lesson-title">${sub.heading}</h1>
       <p class="lesson-subtitle">${sub.subtitle}</p>
       <div class="lesson-body">${bodyHtml}</div>
     </div>
   `;
 
-  /* Na telefonie: po wybraniu podlekcji przewiń do obszaru treści */
   if (window.innerWidth <= 900){
     contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -745,7 +901,7 @@ function renderWelcome(){
     <div class="welcome-screen lesson-content">
       <img src="logo.png" alt="LM" width="70" height="70">
       <h1 class="lesson-title">Witaj na platformie Laboratorium Muzyki</h1>
-      <p class="lesson-subtitle">Wybierz lekcję z przedmiotu „${subject.label}” po lewej stronie, aby rozpocząć naukę</p>
+      <p class="lesson-subtitle">Wybierz przedmiot z menu u góry,</p>
       <p class="lesson-body">Najedź kursorem na jedną z lekcji w panelu bocznym, a następnie kliknij wybraną podlekcję, aby zobaczyć jej treść w tym miejscu.</p>
     </div>
   `;
