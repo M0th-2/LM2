@@ -770,35 +770,7 @@ const SUBJECTS = {
     ]
   },
 
-  hm: {
-    label: "Hm",
-    lessons: [
-      {
-        id: "lekcja1",
-        title: "Lekcja Hm 1: Wprowadzenie",
-        sublessons: [
-          {
-            id: "1",
-            title: "1",
-            heading: "hmm",
-            subtitle: "1",
-            body: [
-        
-              '<img src="nuty.png" alt="nuty" width="500" height="600">'
-            ]
-          },
-          {
-            id: "2",
-            title: "cośtamhm",
-            heading: "jcucj",
-            subtitle: "uhh",
-            body: [
-              ]
-          }
-        ]
-      }
-    ]
-  },
+ 
 
   aud: {
     label: "Audycje Muzyczne",
@@ -830,7 +802,79 @@ const SUBJECTS = {
               "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
               "Treść można dowolnie rozbudować o kolejne akapity."
             ]
-          }
+          },
+          {
+            id: "Rodzaje Rytmu",
+            title: "Rodzaje Rytmu",
+            heading: "Rodzaje Rytmu",
+            subtitle: "Rodzaje Rytmu",
+            body: [
+              "Rytm jest jednym z elementów dzieła muzycznego, wymienianym zaraz obok melodii. My jednak pokusiły byśmy się o stwierdzenie, że jest on wręcz od niej ważniejszy - ponieważ znajdziecie utwór bez melodii, nie ma jednak utworu bez rytmu (nawet jeśli jest on nieokreślony).",
+              "Co to tak w zasadzie jest? Tworzą go wszystkie dźwięki: te krótkie, te długie, akcentowane i nieakcentowane, a także te, których nie ma - czyli pauzy.",
+              "<b>Rytm możemy podzielić na kilka nazwijmy to 'gałęzi':</b>",
+              "<ol><li>Swobodny</li><li>Ustalony</li></ol>",
+              "<ul><li>Zmienny</li><li>Okresowy - taneczny (z charakterystycznymi dla danych tanców grupami rytmicznymi), motoryczny (drobne wartości rytmiczne, szerokie tempo), marszowy, miarowy (jednostajny)</li></ul>",
+              "Tak samo jak przy melodii, prawdopodobnie spotkacie się z utworami, które ciężko będzie przypasować do którejś z tych kategorii, jako że muzyka jest sztuką w praktyce często pozbawioną ograniczeń. Mimo to jedna warto znać przyjęte określenia, jeśli chce się jej uczyć bardziej profesjonalnie.",
+              
+            ]
+          },
+          {
+            id: "Rodzaje Harmonii",
+            title: "Rodzaje Harmonii",
+            heading: "Rodzaje Harmonii",
+            subtitle: "Rodzaje Harmonii",
+            body: [
+              "<b>Harmonia</b> to kolejny niezwykle istotny element dzieła muzycznego. Jest odpowiedzialny za współbrzmienie dźwięków w utworze. Jest związany z budową akordów i sposobem ich łączenia.",
+              "Jakie wyróżniamy rodzaje harmonii:",
+              "<ul><li>Modalna (inaczej kościelna)</li><li>Funkcyjna</li><li>Sonorystyczna</li></ul>",
+              "<b>Harmonika modalna</b> jest, można powiedzieć, nieco przestarzała. Używano jej od IX do XVI wieku, a opierała się na skalach modalnych (inaczej kościelnych), którym poświęcona jest cała osobna lekcja, więc nie będziemy się tutaj w to zagłębiać.",
+              "<b>Harmonika funkcyjna</b> jest już trochę nowocześniejsza od modalnej, ponieważ występowała od XVII do XX wieku. Opierała się na skalach durowej i molowej, a więc tych, których uczymy się w szkole i używamy do dziś. Najważniejszą funkcję w takich gamach odgrywają: <b>tonika (T), subdominanta (S), oraz dominanta (D) - o triadzie harmonicznej</b>, czyli tych trzech funkcjach w gamie, także jest więcej mowa w innej naszej lekcji. Od właśnie tych funkcji, harmonia ta jest nazywana funkcyjną.",
+              "<b>Harmonia sonorystyczna</b> jest najbradziej aktualna z tych wszstkich rodzajów, ponieważ używają jej współcześni kompozytorzy. Opiera się na skali chromatycznej, nie ma ona"
+            ]
+          },
+           {
+            id: "Rodzaje Muzyki",
+            title: "Rodzaje Muzyki",
+            heading: "Rodzaje Muzyki",
+            subtitle: "Rodzaje Muzyki",
+            body: [
+              "<b>Dynamika<;b>to element dzieła muzycznego związany z natężeniem dźwięku, to znaczy z jego głośnością. Do jej oznaczania, tak jak wielu innych rzeczy, używamy określeń z języka włoskiego"
+                `<table style="
+        width:100%;
+        border-collapse:collapse;
+        font-size:15px;
+        margin:28px 0 10px;
+        border-radius:16px;
+        overflow:hidden;
+        box-shadow:0 4px 20px rgba(120,90,160,0.13);
+      ">
+      <thead>
+        <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Stopień</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Nazwa</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${[
+          ["I",  "tonika (T) - to punkt centralny gamy"],
+          ["II",  "dźwięk prowadzący w dół"],
+          ["III",  "medianta"],
+          ["IV",  "subdominanta (S) czyli dominanta dolna (sub = pod)"],
+          ["V",  "dominanta (D), z łaciny dominus = dominujący"],
+          ["VI",  "submedianta"],
+          ["VII",  "dźwięk prowadzącyw w górę (o silnym ciążeniu)"],
+          ["VIII",  "= powtórzenie I"],
+
+        ].map(([Stopień, Nazwa], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255)' : 'rgba(217)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${Stopień}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${Nazwa}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+              ]
+          },
         ]
       }
     ]
