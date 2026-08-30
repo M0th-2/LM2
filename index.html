@@ -687,11 +687,11 @@ const SUBJECTS = {
           ["IV",  "subdominanta (S) czyli dominanta dolna (sub = pod)"],
           ["V",  "dominanta (D), z łaciny dominus = dominujący"],
           ["VI",  "submedianta"],
-          ["VII",  "dźwięk prowadzącyw w górę (o silnym ciążeniu)"],
+          ["VII",  "dźwięk prowadzący w w górę (o silnym ciążeniu)"],
           ["VIII",  "= powtórzenie I"],
 
         ].map(([Stopień, Nazwa], i) => `
-          <tr style="background:${i % 2 === 0 ? 'rgba(255)' : 'rgba(217)'};">
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(217,199,244,0.2)'};">
             <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${Stopień}</td>
             <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${Nazwa}</td>
           </tr>
@@ -788,9 +788,9 @@ const SUBJECTS = {
               "My skupiamy się tutaj na teoretycznej jej części, w praktyce jednak istnieje ona właśnie po to, by móc wyrazić swoje myśli bez używania słów, przekazywać emocje bez żadnych ograniczeń, a można to robić na tak wiele różnych sposobów. Każdy może odnaleźć się w czymś trochę (lub bardzo) innym.",
               "Jak więc - i tu znów wracamy do teorii - możemy podzielić muzykę? Jakie możemy wyróżnić jej rodzaje i czym one się charakteryzują?",
               "<b>Ze względu na charakter, może być ona:</b>",
-              "<ul><li>Poważna- często nazywana muzyką klasyczną</li><li>Rozrywkowa- taka, jaką możemy usłyszeć chociażby w radiu</li></ul>",
+              "<ul><li><i>Poważna</i> <p>często nazywana muzyką klasyczną</p></li><li><i>Rozrywkowa</i><p>taka, jaką możemy usłyszeć chociażby w radiu</p></li></ul>",
               "<b>Ze względu na aparat wykonawczy</b> czyli kto ją wykonuje, może być:",
-              "<ul><li>Wokalna:solowa, zespołowa (inaczej kameralna), chóralna</li><li>Instrumentalna:solowa, zespołowa (kameralna), orkiestrowa</li><li>Wokalno-instrumentalna</li></ul>"
+              "<ul><li><i>Wokalna:</i><p>solowa, zespołowa (inaczej kameralna), chóralna</p></li><li><i>Instrumentalna:</i><p>solowa, zespołowa (kameralna), orkiestrowa</p></li><li><i>Wokalno-instrumentalna</i></li></ul>"
             ]
           },
           {
@@ -799,8 +799,13 @@ const SUBJECTS = {
             heading: "Rodzaje Melodii",
             subtitle: "Rodzaje Melodii",
             body: [
-              "Tutaj wpisz dalszą część materiału dla przedmiotu Har.",
-              "Treść można dowolnie rozbudować o kolejne akapity."
+              "Melodia (melodyka) jest elementem dzieła muzycznego, który najczęściej wymienia się jako pierwszy. Niby każdy wie, co to jest... ale nikt w zasadzie nie potrafi do końca ubrać tego w słowa, prawda? No więc, co to jest ta melodia? Otóż jest to szereg dźwięków o różnych wysokościach, zorganizowanych rytmicznie, które przedstawiają jakąś jedną całość.",
+              "<strong>Wyróżniamy melodykę:</strong>",
+              "<ul><li><i>Wokalną</i></li><p>która nie może być zbyt ruchliwa a także ma ograniczoną skalę ze względu na możliwości wykonawcze wokalisty.</p><li><i>Instrumentalną</i></li><p>która nie ma takich ograniczeń.</p></ul>",
+              "<strong>Podstawowe rodzaje melodii to</strong>",
+              "<ul><li><i>Kantylenowa</i></li><p>Melodyka kantylenowa jest śpiewna, spokojna, najczęściej bez dużych skoków. Charakteryzuje ją wolne tempo i długie wartości rytmiczne, a także legatowe połączenia dźwięków.</p><li><i>Figuracyjna</i><p>Melodyka figuracyjna jest przeciwieństwem kantylenowej - ruchliwa, szybka, często z dużymi skokami ale też przebiegami gamowymi bądź pasażowymi</p></li><li><i>Ornamentalna</i></li><p>Melodyka ornamentalna cechuje się dużą ilością ozdobników</p><li><i>Deklamacyjna</i></li><p></p></ul>",
+              "<strong>Ze względu na jej treść:</strong>",
+              "<ul><li><i>Religijna</i></li><li><i>Świecka</i></li></ul>",
             ]
           },
           {
@@ -833,12 +838,13 @@ const SUBJECTS = {
             ]
           },
            {
-            id: "Rodzaje Muzyki",
-            title: "Rodzaje Muzyki",
-            heading: "Rodzaje Muzyki",
-            subtitle: "Rodzaje Muzyki",
+            id: "Dynamika",
+            title: "Dynamika",
+            heading: "Dynamika",
+            subtitle: "Dynamika",
             body: [
-              "<b>Dynamika<;b>to element dzieła muzycznego związany z natężeniem dźwięku, to znaczy z jego głośnością. Do jej oznaczania, tak jak wielu innych rzeczy, używamy określeń z języka włoskiego"
+              "<B>Dynamika</b> to element dzieła muzycznego związany z natężeniem dźwięku, to znaczy z jego głośnością. Do jej oznaczania, tak jak wielu innych rzeczy, używamy określeń z języka włoskiego",
+                "<strong>Skala głośności:</strong>",
                 `<table style="
         width:100%;
         border-collapse:collapse;
@@ -850,31 +856,210 @@ const SUBJECTS = {
       ">
       <thead>
         <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
-          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Stopień</th>
-          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Nazwa</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Termin</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Symbol</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Znaczenie</th>
         </tr>
       </thead>
       <tbody>
         ${[
-          ["I",  "tonika (T) - to punkt centralny gamy"],
-          ["II",  "dźwięk prowadzący w dół"],
-          ["III",  "medianta"],
-          ["IV",  "subdominanta (S) czyli dominanta dolna (sub = pod)"],
-          ["V",  "dominanta (D), z łaciny dominus = dominujący"],
-          ["VI",  "submedianta"],
-          ["VII",  "dźwięk prowadzącyw w górę (o silnym ciążeniu)"],
-          ["VIII",  "= powtórzenie I"],
+          ["pianississimo",  "ppp", "tak cicho, jak to możliwe"],
+          ["pianissimo",  "pp", "bardzo cicho"],
+          ["piano",  "p", "cicho"],
+          ["mezzo piano", "mp", "umiarkowanie cicho"],
+          ["mezzo forte", "mf", "umiarkowanie głośno"],
+          ["forte", "f", "głośno"],
+          ["fortissimo", "ff", "bardzo głośno"],
+          ["fortississimo",  "fff", "tak głośno, jak to możliwe"],
+
+        ].map(([Nazwa, skrot, Znaczenie], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(217,199,244,0.2)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${Nazwa}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${skrot}</td>
+            <td style="padding:11px 16px;text-align:center;">${Znaczenie}</td>
+           
+          </tr>
+        `).join('')}
+      </tbody>
+      </table>`,
+      "<br>",
+      "<strong>Stopniowa zmiana dynamiki:</strong>",
+      `<table style="
+        width:100%;
+        border-collapse:collapse;
+        font-size:15px;
+        margin:28px 0 10px;
+        border-radius:16px;
+        overflow:hidden;
+        box-shadow:0 4px 20px rgba(120,90,160,0.13);
+      ">
+      <thead>
+        <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Interwał</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Skrót</th>
+          <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Liczba półtonów</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        ${[ ["crescendo",  "cresc lub <", "coraz głośniej"], 
+            ["diminuendo",  "dim lub >", "coraz ciszej"], 
+            ["fortepiano",  "fp", "głośno, a potem nagle cicho"], 
+            ["sforzando, forzando, szforzato",  "sfz, sf lub fz", "nagle zaakcentować"], 
+            ["rinforzando",  "rfz lub rf", "wzmocnić"],
+
+        ].map(([Nazwa, skrot, Znaczenie], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(217,199,244,0.2)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${Nazwa}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${skrot}</td>
+            <td style="padding:11px 16px;text-align:center;">${Znaczenie}</td>
+            
+         
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+              
+              ]
+           },
+           {  id: "Agogika",
+            title: "Agogika",
+            heading: "Agogika",
+            subtitle: "Agogika",
+            body: [
+              "Agogika to element dzieła muzycznego, który zajmuje się wszystkim, co dotyczy tempa. Kompozytor oznacza tempo na początku utworu, używając do tego określeń włoskich, który, jak wiadomo, jest głównym językiem używanym w muzyce. Rzadziej zdarza się używanie określeń w innym języku, nie jest to jednak całkowicie niespotykane.",
+              "Rozróżniamy trzy rodzaje temp: wolne, umiarkowane i szybkie. Wymienimy do każdego z nich kilka najczęściej używanych oznaczeń.",
+              `<table style="
+                  width:100%;
+                  border-collapse:collapse;
+                  font-size:15px;
+                  margin:28px 0 10px;
+                  border-radius:16px;
+                  overflow:hidden;
+                  box-shadow:0 4px 20px rgba(120,90,160,0.13);
+                ">
+                <thead>
+                  <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Tempa wolne</th>
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Znaczenie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${[,
+                    ["Largo",  "szeroko, bardzo powoli"],
+                    ["Lento",  "powoli"],
+                    ["Adagio",  "wolno"],
+                    ["Grave",  "ciężko"]
+
+        ].map(([tempo, znaczenie], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(217,199,244,0.2)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${tempo}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${znaczenie}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+              `<table style="
+                  width:100%;
+                  border-collapse:collapse;
+                  font-size:15px;
+                  margin:28px 0 10px;
+                  border-radius:16px;
+                  overflow:hidden;
+                  box-shadow:0 4px 20px rgba(120,90,160,0.13);
+                ">
+                <thead>
+                  <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Tempa umiarkowane</th>
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Znaczenie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${[,
+                    ["Andante",  "w tempie spokojnego kroku"],
+                    ["Moderato",  "umiarkowanie"],
+                    ["Allegretto",  "dość żywo"],
+
+        ].map(([tempo, znaczenie], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(217,199,244,0.2)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${tempo}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${znaczenie}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+    `<table style="
+                  width:100%;
+                  border-collapse:collapse;
+                  font-size:15px;
+                  margin:28px 0 10px;
+                  border-radius:16px;
+                  overflow:hidden;
+                  box-shadow:0 4px 20px rgba(120,90,160,0.13);
+                ">
+                <thead>
+                  <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Tempa Szybkie</th>
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Znaczenie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${[,
+                    ["Allegro",  "wesoło, ruchliwie"],
+                    ["Vivo",  "żywo"],
+                    ["Vivace",  "prędko"],
+                    ["Presto",  "szybko"],
+
+        ].map(([tempo, znaczenie], i) => `
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(217,199,244,0.2)'};">
+            <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${tempo}</td>
+            <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${znaczenie}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`,
+  "Tempo zasadnicze czasem może ulec chwilowej zmianie. Do oznaczania takich rzeczy jak zwolnienia lub przyspieszenia używamy następujących określeń:",
+     `<table style="
+                  width:100%;
+                  border-collapse:collapse;
+                  font-size:15px;
+                  margin:28px 0 10px;
+                  border-radius:16px;
+                  overflow:hidden;
+                  box-shadow:0 4px 20px rgba(120,90,160,0.13);
+                ">
+                <thead>
+                  <tr style="background:linear-gradient(90deg,#e7a9cf,#b79ae8 55%,#8fc2ed);color:#fff;">
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Termin</th>
+                    <th style="padding:13px 16px;text-align:left;font-weight:700;letter-spacing:.04em;">Znaczenie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${[,
+                    ["Accelerando (accel.)",  "przyspieszając"],
+                    ["Animando",  "ożywiając"],
+                    ["Poco a poco string.",  "stopniowo przyspieszając"],
+                    ["Ritardando (ritard.)",  "zwalniając"],
+                    ["Ritenuto (rit.)",  "opóźniając, powstrzymując"],
 
         ].map(([Stopień, Nazwa], i) => `
-          <tr style="background:${i % 2 === 0 ? 'rgba(255)' : 'rgba(217)'};">
+          <tr style="background:${i % 2 === 0 ? 'rgba(255,255,255,0.6)' : 'rgba(217,199,244,0.2)'};">
             <td style="padding:11px 16px;font-weight:600;color:#3a2f4d;">${Stopień}</td>
             <td style="padding:11px 16px;font-family:monospace;font-size:14px;color:#a989d9;font-weight:700;">${Nazwa}</td>
           </tr>
         `).join('')}
       </tbody>
     </table>`,
-              ]
-          },
+    "<br>",
+    "<strong>Oznaczenie metronomiczne</strong>",
+    "Jeśli kompozytor chce dokładnie określić tempo danego utworu, wykorzystuje w tym celu oznaczenie metrorytmiczne, które mówi o tym, ile jakichś wartości mieści się w minucie (używamy tego też np. do ustawiania tempa w metronomie)",
+    "<small>poniżej przykład metronomu mechanicznego marki Lekato</small>",
+    '<img src="metronom.png" alt="metronom" width="200" height="200">',
+    "Ciekawym zjawiskiem jest <b>rubato</b> (często wykorzystywane np. przez Fryderyka Chopina). Włoskie słowo rubare oznacza 'kraść'. Tak więc rubato będzie przedłużaniem jednej nuty na rzecz innej, lub na odwrót - skracanie jakiegoś dźwięku, aby przedłużyć inny, przy jednoczesnym zachowaniu płynności tempa i ilości wartości w takcie.",
+    
+
+            ]
+           }
         ]
       }
     ]
