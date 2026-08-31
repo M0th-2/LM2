@@ -447,7 +447,7 @@
       <div class="subject-tile" data-subject="onas">O nas</div>
       <div class="subject-tile" data-subject="ks">Kształcenie słuchu</div>
       <div class="subject-tile" data-subject="aud">Audycje Muzyczne</div> 
-      <div class="subject-tile" data-subject="hm">Historia Muzyki</div>
+      <div class="subject-tile" data-subject="ex">Ćwiczenia</div>
     </div>
   </nav>
 
@@ -491,7 +491,7 @@
    =====================================================================
    TU UZUPEŁNIASZ LEKCJE.
    Obiekt SUBJECTS ma trzy klucze odpowiadające kafelkom w navbarze:
-   "ks", "hm", "har". Każdy z nich zawiera "label" (nazwa do nagłówka
+   "ks", "ex", "har". Każdy z nich zawiera "label" (nazwa do nagłówka
    sidebaru) oraz "lessons" — tablicę lekcji w takim samym formacie
    jak wcześniej.
 
@@ -834,7 +834,9 @@ const SUBJECTS = {
               "<ul><li>Modalna (inaczej kościelna)</li><li>Funkcyjna</li><li>Sonorystyczna</li></ul>",
               "<b>Harmonika modalna</b> jest, można powiedzieć, nieco przestarzała. Używano jej od IX do XVI wieku, a opierała się na skalach modalnych (inaczej kościelnych), którym poświęcona jest cała osobna lekcja, więc nie będziemy się tutaj w to zagłębiać.",
               "<b>Harmonika funkcyjna</b> jest już trochę nowocześniejsza od modalnej, ponieważ występowała od XVII do XX wieku. Opierała się na skalach durowej i molowej, a więc tych, których uczymy się w szkole i używamy do dziś. Najważniejszą funkcję w takich gamach odgrywają: <b>tonika (T), subdominanta (S), oraz dominanta (D) - o triadzie harmonicznej</b>, czyli tych trzech funkcjach w gamie, także jest więcej mowa w innej naszej lekcji. Od właśnie tych funkcji, harmonia ta jest nazywana funkcyjną.",
-              "<b>Harmonia sonorystyczna</b> jest najbradziej aktualna z tych wszstkich rodzajów, ponieważ używają jej współcześni kompozytorzy. Opiera się na skali chromatycznej, nie ma ona"
+              "<b>Harmonia sonorystyczna</b> jest najbradziej aktualna z tych wszstkich rodzajów, ponieważ używają jej współcześni kompozytorzy. Opiera się na skali chromatycznej, nie ma ona żadnego ośrodka tonalnego (czyli 'ważniejszego' akordu, toniki) a także dominują w niej <b>dysonanse i klastry.</b>",
+              "<small>*dysonans to współbrzmienie brzmiące ostro i nieprzyjemnie, a klaster to duża ilość dźwięków obok siebie grana jednocześnie, tworząca głośne i nieprzyjemne współbrzmienie (jakby ktoś np. usiadł na klawiaturze[do czego oczywiście nie zachęcamy])</small>"
+
             ]
           },
            {
@@ -1063,10 +1065,161 @@ const SUBJECTS = {
         ]
       }
     ]
-  }
+  },
  
-};
 
+  ex: {
+    label: "Ćwiczenia",
+    lessons: [
+      {
+        id: "wszystkie",
+        sublessons: [
+  {
+  id: "rozpoznawanie-interwalow",
+  title: "Słuchowe rozpoznawanie interwałów",
+  heading: "Słuchowe rozpoznawanie interwałów",
+  subtitle: "Do oktawy, w górę",
+  body: [
+    `<div style="display:flex;flex-direction:column;gap:18px;">
+
+      <!-- LICZNIK -->
+      <div style="
+        display:inline-flex;align-items:center;gap:20px;
+        padding:10px 22px;border-radius:999px;
+        background:rgba(255,255,255,0.65);
+        border:1px solid rgba(183,154,232,0.3);
+        box-shadow:0 4px 16px rgba(120,90,160,0.1);
+        font-size:16px;font-weight:700;width:fit-content;
+      ">
+        <span>Dobrze: <span id="correctCount" style="color:#3f9e6b;">0</span></span>
+        <span>Źle: <span id="wrongCount" style="color:#d9608e;">0</span></span>
+      </div>
+
+      <!-- PRZYCISKI GŁÓWNE -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button onclick="randomInterval()" style="
+          padding:12px 26px;border:none;border-radius:14px;
+          font-size:15px;font-weight:700;color:#fff;cursor:pointer;
+          background:linear-gradient(120deg,#e7a9cf,#b79ae8 60%,#8fc2ed);
+          box-shadow:0 4px 14px rgba(120,90,160,0.18);
+          transition:transform .25s ease,box-shadow .25s ease;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+          ▶ Losuj interwał
+        </button>
+        <button onclick="repeatInterval()" style="
+          padding:12px 26px;border:none;border-radius:14px;
+          font-size:15px;font-weight:700;color:#6c5f82;cursor:pointer;
+          background:rgba(255,255,255,0.7);
+          border:1px solid rgba(183,154,232,0.35);
+          box-shadow:0 4px 14px rgba(120,90,160,0.08);
+          transition:transform .25s ease;
+        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+          ↺ Zagraj jeszcze raz
+        </button>
+      </div>
+
+      <!-- PRZYCISKI WYBORU INTERWAŁU -->
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        ${[
+          ['sekundamala',    'Sekunda Mała'],
+          ['sekundawielka',  'Sekunda Wielka'],
+          ['tercjamala',     'Tercja Mała'],
+          ['tercjawielka',   'Tercja Wielka'],
+          ['kwarta',         'Kwarta'],
+          ['tryton',         'Tryton'],
+          ['kwinta',         'Kwinta'],
+          ['sekstamala',     'Seksta Mała'],
+          ['sekstawielka',   'Seksta Wielka'],
+          ['septymamala',    'Septyma Mała'],
+          ['septymawielka',  'Septyma Wielka'],
+          ['oktawa',         'Oktawa'],
+        ].map(([val, label]) => `
+          <button onclick="checkAnswer('${val}')" style="
+            padding:10px 18px;border:none;border-radius:12px;
+            font-size:14px;font-weight:600;color:#3a2f4d;cursor:pointer;
+            background:rgba(255,255,255,0.6);
+            border:1px solid rgba(183,154,232,0.3);
+            box-shadow:0 2px 8px rgba(120,90,160,0.08);
+            transition:transform .2s ease,background .2s ease;
+          "
+          onmouseover="this.style.background='rgba(217,199,244,0.7)';this.style.transform='translateY(-2px)'"
+          onmouseout="this.style.background='rgba(255,255,255,0.6)';this.style.transform='translateY(0)'">
+            ${label}
+          </button>
+        `).join('')}
+      </div>
+
+      <!-- FEEDBACK -->
+      <div id="interval-feedback" style="
+        min-height:36px;font-size:17px;font-weight:700;
+        padding:10px 18px;border-radius:14px;
+        background:transparent;transition:all .3s ease;
+      "></div>
+
+      <!-- AUDIO (ukryty) -->
+      <audio id="audioPlayer" style="display:none;"></audio>
+
+    </div>`
+  ],
+  script: `
+    var correctAnswer = '';
+    var correctCount = 0;
+    var wrongCount = 0;
+
+    var intervals = {
+      0:  ['sekundamala',   'Asekundamala.mp3'],
+      1:  ['sekundawielka', 'Asekundawielka.mp3'],
+      2:  ['tercjamala',    'Atercjamala.mp3'],
+      3:  ['tercjawielka',  'Atercjawielka.mp3'],
+      4:  ['kwarta',        'Akwarta.mp3'],
+      5:  ['tryton',        'Atryton.mp3'],
+      6:  ['kwinta',        'Akwinta.mp3'],
+      7:  ['sekstamala',    'Asekstamala.mp3'],
+      8:  ['sekstawielka',  'Asekstawielka.mp3'],
+      9:  ['septymamala',   'Aseptymamala.mp3'],
+      10: ['septymawielka', 'Aseptymawielka.mp3'],
+      11: ['oktawa',        'Aoktawa.mp3'],
+    };
+
+    function randomInterval() {
+      var r = Math.floor(Math.random() * 12);
+      correctAnswer = intervals[r][0];
+      var audio = document.getElementById('audioPlayer');
+      audio.src = intervals[r][1];
+      audio.load();
+      audio.play().catch(e => console.error(e));
+      var fb = document.getElementById('interval-feedback');
+      fb.textContent = '';
+      fb.style.background = 'transparent';
+    }
+
+    function repeatInterval() {
+      document.getElementById('audioPlayer').play().catch(e => console.error(e));
+    }
+
+    function checkAnswer(answer) {
+      var fb = document.getElementById('interval-feedback');
+      if (answer === correctAnswer) {
+        correctCount++;
+        document.getElementById('correctCount').textContent = correctCount;
+        fb.textContent = '✓ Dobrze!';
+        fb.style.background = 'rgba(63,158,107,0.12)';
+        fb.style.color = '#2f8f5e';
+      } else {
+        wrongCount++;
+        document.getElementById('wrongCount').textContent = wrongCount;
+        fb.textContent = '✗ Źle — spróbuj ponownie lub wylosuj nowy interwał.';
+        fb.style.background = 'rgba(217,96,142,0.1)';
+        fb.style.color = '#c84e84';
+      }
+    }
+  `
+}
+        ]
+      }
+    ]
+  },
+};
 /* ===================================================================== */
 
 let currentSubject = "ks";
@@ -1097,6 +1250,10 @@ function renderSidebar(){
       subTile.style.paddingLeft = '16px'; // usuń wcięcie podlekcji, teraz są na głównym poziomie
       subTile.addEventListener('click', () => selectSublesson(lesson, sub, subTile));
       sidebarList.appendChild(subTile);
+      if (sub.script) {
+  const s = document.createElement('script');
+  s.textContent = sub.script;
+  contentArea.appendChild(s);}
     });
   });
 }
