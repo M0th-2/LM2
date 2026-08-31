@@ -9,7 +9,16 @@
   /* =========================================================
      TOKENY / ZMIENNE — pastelowa paleta różu, fioletu, błękitu
      ========================================================= */
-  :root{
+  *, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+    :root{ 
     --rose:        #f7d6e8;
     --rose-deep:   #e7a9cf;
     --violet:      #d9c7f4;
@@ -44,14 +53,13 @@
   html{ scroll-behavior:smooth; }
 
   body{
-    margin:0;
-    min-height:100vh;
-    font-family: var(--font-body);
+  margin:0;
+  min-height:100vh;
+  font-family: var(--font-body);;
     background:
       radial-gradient(1200px 600px at 10% -10%, var(--rose) 0%, transparent 55%),
       radial-gradient(1000px 600px at 100% 0%, var(--sky) 0%, transparent 55%),
       linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
-    background-attachment: fixed;
     color: var(--ink);
     overflow-x:hidden;
   }
@@ -102,7 +110,13 @@
     background: rgba(251, 247, 253, 0.78);
     backdrop-filter: blur(14px) saturate(140%);
     border-bottom: 1px solid rgba(183, 154, 232, 0.25);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .navbar::-webkit-scrollbar{
+  display: none; /* chowa scrollbar na Chrome/Safari */
+}
   .navbar .logo-mark{
     width:38px; height:38px; border-radius:11px;
     background: linear-gradient(135deg, var(--rose-deep), var(--violet-deep) 55%, var(--sky-deep));
@@ -375,11 +389,77 @@
   /* =========================================================
      RESPONSYWNOŚĆ
      ========================================================= */
-  @media(max-width: 900px){
-    .app-shell{ flex-direction:column; }
-    .sidebar{ width:100%; position:static; flex:none; }
-    .content-area{ padding: 32px 24px 40px; width:100%; }
+@media(max-width: 900px){
+  .navbar{
+    padding: 0 10px;
+    gap: 6px;
   }
+  .app-shell{
+    flex-direction: column;
+    padding: 10px 0 0;
+    gap: 10px;
+    max-width: 100%;
+    width: 100%;
+  }
+  .sidebar{
+    width: 100%;
+    position: static;
+    flex: none;
+    border-radius: 0;
+    margin: 0;
+  }
+  .content-area{
+    padding: 18px 12px 28px;
+    width: 100%;
+    border-radius: 0;
+    min-height: auto;
+    max-width: 100%;
+  }
+  .lesson-title{
+    font-size: clamp(20px, 5.5vw, 30px);
+  }
+  .lesson-subtitle{
+    font-size: 14px;
+  }
+  .lesson-body{
+    font-size: 15px;
+    max-width: 100%;
+  }
+  .lesson-body table,
+  .lesson-body img,
+  .lesson-body div{
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  table{
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .site-footer{
+    padding: 30px 12px 24px;
+  }
+  .footer-inner{
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media(max-width: 480px){
+  .subject-tiles{
+    gap: 4px;
+    margin-left: 6px;
+    padding-left: 8px;
+  }
+  .subject-tile{
+    padding: 5px 8px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+  .navbar .brand{
+    font-size: 16px;
+  }
+}
 
   /* Widok startowy / strona główna — sidebar zostaje puste miejsce, treść się nie rozciąga */
   .app-shell.home-mode .sidebar{
@@ -585,15 +665,18 @@ const SUBJECTS = {
       </thead>
       <tbody>
         ${[
-          ["Nonna mała",  "9>",   "13"],
-          ["Nonna wielka", "9",  "14"],
-          ["Decyma mała",  "10>",  "15"],
-          ["Decyma wielka","10",  "16"],
-          ["Undecyma",     "11",  "17"],
-          ["Duodecyma",    "12",   "18"],
-          ["Tridecyma",    "13",  "19"],
-          ["Kwintdecymy",  "14",   "20"],
-          ["(podwójna oktawa)", "15",  "21"],
+          ["Nonna Mała",  "9>",   "13"],
+          ["Nonna Wielka", "9",  "14"],
+          ["Decyma Mała",  "10>",  "15"],
+          ["Decyma Wielka","10",  "16"],
+          ["Undecyma Czysta",     "11",  "17"],
+          ["Undecyma Zwiększona/Duodecyma zmniejszona (tryton)",     "11</12>",  "18"],
+          ["Duodecyma",    "12",   "19"],
+          ["Tercdecyma Mała",    "13>",  "20"],
+          ["Tercdecyma Wielka",    "13",  "21"],
+          ["Kwartdecyma Mała",  "14",   "22"],
+          ["Kwartdecyma Wielka",  "14<",   "23"],
+          ["Kwintecyma", "15",  "24"],
 
         ].map(([name, short, semi], i) => `
           <tr style="background:${i % 2 === 0 ? 'rgba(255,255)' : 'rgba(217,199)'};">
@@ -606,7 +689,7 @@ const SUBJECTS = {
     </table>`,
    "<strong>Przekształcenie interwału</strong> - to zmiana rozmiaru interwału za pomocą odpowiedniego znaku chromatycznego",
    "<strong>Przeistoczenie interwału</strong> - polega na zbudowaniu interwału równoważnego enharmonicznie.",
-   "<h2>Enharmonia</h2> polega na zmianie pisowni i nazwy dźwięku bez zmiany jego brzmienia. Dźwięki o różnej nazwie i pisowni, będące na różnych stopniach, posiadające tę samą wysokość nazywamy dźwiękami enharmonicznymi lub enharmonicznie równoważnymi."
+   "<h2>Enharmonia</h2> Polega na zmianie pisowni i nazwy dźwięku bez zmiany jego brzmienia. Dźwięki o różnej nazwie i pisowni, będące na różnych stopniach, posiadające tę samą wysokość nazywamy dźwiękami enharmonicznymi lub enharmonicznie równoważnymi."
   ]
 },
 {   id: "Klucze",
@@ -617,7 +700,7 @@ const SUBJECTS = {
     "Klucz to znak, który stawiamy na początku systemu liniowego. Wyznacza on położenie na pięciolinii dźwięku zwanego kluczowym. Rozróżniamy rodzaje kluczy: G, F oraz C",
     `<div style="display:flex;flex-direction:column;gap:12px;margin:24px 0;">
       ${[
-      { src: "https://placehold.co/100x100/6fb4e0/3a2f4d?text=G", opis: "<strong><h2>Klucze C</h2></strong>" },
+      { src: "https://placehold.co/100x100/6fb4e0/3a2f4d?text=G", opis: "<strong><h2>Klucze G</h2></strong>" },
         { src: "K1.png", opis: "Klucz dyszkantowy" },
         { src: "K2.png", opis: "Klucz wiolinowy" },
         { src: "https://placehold.co/100x100/a989d9/3a2f4d?text=F", opis: "<strong><h2>Klucze F</h2></strong>" },
@@ -658,11 +741,11 @@ const SUBJECTS = {
     "Jak wspominaliśmy, każdy klucz swoim kształtem wyznacza położenie nuty kluczowej. Kształty te pochodzą od liter greckich umieszczanych dawniej na początku linii. Wybór tych liter nie był przypadkowy - pod nimi w tonacjach kościelnych znajdowały się półtony.",
   ] },
  {  id: "Skale",
-  title: "Skale",
-  heading: "Skale, Gamy Tonacje",
+  title: "Skale, Gamy, Tonacje",
+  heading: "Skale, Gamy, Tonacje",
   subtitle: "Porządek dźwięków",
   body: [
-    "to wybór dźwięków ułożonych według stałego schematu w obrębie oktawy, z określonym dźwiękiem centralnym. Podstawą Europejskiej muzyki są skale systemu tonalnego, skale siedmiostopniowe (w których ósmy dźwięk jest powtórzeniem pierwszego w odległości oktawy). Są to: skala majorowa (durowa) oraz skala minorowa (molowa).",
+    "To wybór dźwięków ułożonych według stałego schematu w obrębie oktawy, z określonym dźwiękiem centralnym. Podstawą Europejskiej muzyki są skale systemu tonalnego, skale siedmiostopniowe (w których ósmy dźwięk jest powtórzeniem pierwszego w odległości oktawy). Są to: skala majorowa (durowa) oraz skala minorowa (molowa).",
     "Skalę rozpoczynającą sie od określonego dźwięku nazywamy gamą. Jest to skala z określonym co do wysokości materiałem dźwiękowym. Wszystkie stopnie gamy mają swoje określone 'funkcje', tak więc mamy:",
     `<table style="
         width:100%;
@@ -687,7 +770,7 @@ const SUBJECTS = {
           ["IV",  "subdominanta (S) czyli dominanta dolna (sub = pod)"],
           ["V",  "dominanta (D), z łaciny dominus = dominujący"],
           ["VI",  "submedianta"],
-          ["VII",  "dźwięk prowadzący w w górę (o silnym ciążeniu)"],
+          ["VII",  "dźwięk prowadzący w górę (o silnym ciążeniu)"],
           ["VIII",  "= powtórzenie I"],
 
         ].map(([Stopień, Nazwa], i) => `
@@ -699,11 +782,11 @@ const SUBJECTS = {
       </tbody>
     </table>`,
     "<H1>Tonacja</h1>",
-    "całokształt stosunków między toniką, jak punktem centralnym, a poszczególnymi stopniami gamy. Kiedy materiałem dźwiękowym danego utworu jest określona gama, mówimy, że utwór jest utrzymany w tej tonacji.",
+    "Całokształt stosunków między toniką, jak punktem centralnym, a poszczególnymi stopniami gamy. Kiedy materiałem dźwiękowym danego utworu jest określona gama, mówimy, że utwór jest utrzymany w tej tonacji.",
     "<H1>Diatonika</h1>",
-    "to zasada posługiwania się wyłącznie dźwiękami składowymi określonej gamy - dźwiękami gamowłaściwymi. Jeśli podwyższymy lub obniżymy dźwięk gamowłaściwy za pomocą znaku przynutowego, nazywamy takie zjawisko alteracją.",
+    "To zasada posługiwania się wyłącznie dźwiękami składowymi określonej gamy - dźwiękami gamowłaściwymi. Jeśli podwyższymy lub obniżymy dźwięk gamowłaściwy za pomocą znaku przynutowego, nazywamy takie zjawisko alteracją.",
     "<H1>Chromatyka</h1>",
-    "to zasada takiego doboru dźwięków, aby w szeregu oprócz dźwięków gamowłaściwymi zastosować ich obniżenia lub podwyższenia za pomocą znaków przynutowych, aby postępowały po sobie półtonami.",
+    "To zasada takiego doboru dźwięków, aby w szeregu oprócz dźwięków gamowłaściwymi zastosować ich obniżenia lub podwyższenia za pomocą znaków przynutowych, aby postępowały po sobie półtonami.",
 
   ]},
   {  id: "Rytm",
@@ -764,10 +847,122 @@ const SUBJECTS = {
 
 
   ]
-    }
+    },
+   {  id: "Trójdziwięki",
+  title: "Trójdziwięki",
+  heading: "Trójdziwięki",
+  subtitle: "Podstawa akordu",
+  body: [
+    "Trójdźwięki - to najprostsze akordy, które składają się z trzech dźwięków nazywanych: <b>pryma</b> (od tego dźwięku pochodzi nazwa całego akordu), <b>tercja</b> i <b>kwinta.</b>",
+    "<i><b>Trójdźwięk budujemy z interwałów tercji, które różnią się między sobą ich rozmieszczeniem:</i></b>",
+    "<ul><li>Od dołu tercja wielka i tercja mała daje trójdźwięk durowy,</li>",
+    '<img src="T1.png">',
+    "<li>Tercja mała i tercja wielka daje trójdźwięk molowy,</li>",
+    '<img src="T2.png">',
+    "<li> Dwie tercje małe dają trójdźwięk zmniejszony,</li>",
+    '<img src="T3.png">',
+    "<li> Dwie tercje wielkie dają trójdźwięk zwiększony.,</li>",
+    '<img src="T4.png">',
+    "</ul>",
+    "<br>",
+    "<h2><strong>Funkcyjne oznaczenia trójdźwięków</strong></h2>",
+    "<strong>T</strong>  - trójdźwięk zbudowany na pierwszym stopniu gamy <b>(Tonika)</b>",
+    "<strong>S</strong>  - trójdźwięk subdominantowy zbudowany na czwartym stopniu gamy <b>(Subdominanta)</b>",
+    "<strong>D</strong>  - trójdźwięk dominantowy zbudowany na piątym stopniu gamy <b>(Dominanta)</b>",
+    "<br>",
+    "Te trzy trójdźwięki - <b>toniczny, subdominantowy i dominantowy</b> - tworzą triadę harmoniczną, czyli trzy podstawowe akordy w tonacji.",
+    '<img src="T5.png">',
+    "Trójdźwięki posiadają dwa rodzaje przewrotów:",
+    "<strong>W pierwszym przewrocie (sekstowy)</strong> - przenosimy najniższy składnik o oktawę wzwyż, albo dwa najwyższe składniki o oktawę w dół. Odległość od najwyższego do najniższego składnika w takim przekształconym akordzie to seksta",
+    '<img src="T6.png">',
+    "<strong>Drugi przewrót (kwartsekstowy)</strong> - przenosimy dwa najniższe składniki o oktawę w górę lub najwyższy o oktawę w dół. Odległość od najniższego do dwóch wyższych składników wynosi kwartę i sekstę.",
+    '<img src="T7.png">',
+    "Przewroty oznaczamy cyfrą najniższego składnika trójdźwięki (3 lub 5) pod nazwą jego funkcji (T, S, D).",
+        ]
+      },
+    {  id: "Dominanta Septymowa",
+  title: "Dominanta Septymowa",
+  heading: "Czterodźwięk septymowy",
+  subtitle: "trójdźwięk z dodanym składnikiem septymy u góry",
+  body: [ 
+    "Skoro była już mowa o trójdźwiękach, i wiemy też, co to triada harmoniczna - skupimy się teraz na dominancie. Pójdziemy jeszcze o krok dalej: w tej lekcji wyjaśnimy, <b>czym jest dominanta septymowa o skrótowym zapisie D⁷.</b>",
+    "<strong>Składa się ona z czterech dźwięków i najłatwiej jest wytłumaczyć ją jako trójdźwięk na piątym stopniu gamy, do którego dodajemy jeszcze jedną tercję małą, stanowiącą składnik septymy dla istniejącego już akordu.</strong>",
+    '<img src="D1.png">',
+    "Ta septyma tworzy bardzo charakterystyczny dysonans, który dąży do rozwiązania na tonikę. Istnieją jednak przyjęte zasady dotyczące <b>rozwiązywania D⁷</b>, uwzględniające w pierwszej kolejności rozwiązanie właśnie tego trytonu.",
+    "Jak to wygląda krok po kroku? Po pierwsze trzeba rozpoznać wszystkie składniki współbrzmienia. Następnie musimy wiedzieć, na jaki akord chcemy je rozwiązać - np. G rozwiązuje się na C (ponieważ akord G to V stopień w gamie C-dur, czyli jej dominanta, tak więc akord C będzie w tym przypadku toniką).",
+    "Skoro to już zostało wyjaśnione, to w rozwiązaniu po kolei: tercja D⁷ idzie do góry na najbliższy składnik T, kwinta i septyma kierują się w dół (septyma idzie na tercję T, a więc decyduje o trybie rozwiązania - ponieważ to od tercji zależy, czy akord jest durowy czy molowy), a pryma albo zostaje albo skacze.",
+    "Przykładowe rozwiązanie w tonacji C-dur (D⁷ składa się z dźwięków: g, h, d, f, natomiast T z c, e, g, gdzie dwoimy prymę, czyli c)",
+    '<img src="D2.png">',
+    "Taki rodzaj rozwiązania nazywamy <b>ścisłym</b>, jednak istnieje też rzadziej używane rozwiązanie <b>swobodne</b>, w którym septyma zamiast w dół, idzie do góry. Nie jest jednak gwarantowane, w przeciwieństwie do sposobu ścisłego, że we wszystkich sytuacjach będzie ono poprawne i zgodne ze wszystkimi innymi zasadami, jakie istnieją w harmonii.",
+    '<img src="D3.png">',
+    "<br>",
+    "Akord D⁷, tak samo jak wszystkie inne akordy, ma swoje przewroty, które tworzy się na tej samej zasadzie co przewroty trójdźwięków: przekładając stopniowo kolejne składniki o oktawę wyżej.",
+    "Kolejno są to: ",
+    "<strong>pierwszy przewrót = kwintsekstowy,</strong>",
+    '<img src="D4.png">',
+    "<strong>drugi przewrót = terckwartowy,</strong>",
+    '<img src="D5.png">',
+    "<strong>trzeci przewrót = sekundowy.</strong>",
+    '<img src="D6.png">',
+    "Zaznacza się je podobnie jak trójdźwięki, pod symbolem D⁷ cyferką tego składnika, który znajduje się w danym przewrocie na dole (we wczesnej fazie nauki małych dzieci, przy pisowni akordów bez przewrotów czasem się z tej jedynki rezygnuje).",
+        ]
+        },
+      {  id: "Koło kwintowe",
+  title: "Koło kwintowe",
+  heading: "Koło kwintowe",
+  subtitle: "Koło porządkujące tonacje na podstawie znaków przykluczowych",
+  body: [ 
+    "Koło kwintowe to w skrócie wszystkie tonacje (durowe i molowe) ułożone w określony sposób. W jaki dokładnie?",
+    '<img src="Kolo.png" width="500" border-radius="20px">',
+    "Zaczynamy od tonacji C-dur, która nie ma żadnych znaków. Następnie idąc w prawo, kolejna tonacja posiada przy kluczu jeden krzyżyk - jest to G-dur. Poruszając się po kolei w prawo, każda następna tonacja ma o jeden krzyżyk więcej, aż do Fis-dur, która ma ich sześć. Są to po kolei: G, D, A, E, H, Fis.",
+    "Natomiast jeśli pójdziemy w lewo od C, mamy gamy bemolowe. Są ułożone na takiej samej zasadzie, to znaczy każda następna tonacja ma o jeden bemol więcej. Po kolei więc mamy: Do, B, Es, As, Des, oraz Bez, która ma sześć bemoli.",
+    "Na dole koła tonacje się spotykają. Jak wyżej jest wspomniane, tonacje są na kole do sześciu znaków. Jest tak dlatego, że Fis oraz Ges (6 krzyżyków i 6 bemoli) brzmią dokładnie tak samo - można powiedzieć że enharmonicznie to ta sama tonacja.",
+    "Jeśli chodzi o tonacje molowe, sprawa jest prosta. Wiemy, że tonacje molowe mają taką samą ilość znaków,jak ich durowe paralele. Wystarczy więc policzyć, od jakiej gamy surowej dana gama losowa jest paralelą (dla przypomnienia, gama molowa jest o 3> od jej durowej paraleli).",
+    "W skrócie: jeśli mamy gamę molową, liczymy 3> w górę i już wiemy od jakiej durowej ta skala pochodzi. Jak już wiemy od jakiej durowej, to wiemy też, gdzie leży na kole kwiatowym, a tym samym ile i jakie ma znaki.",
+    "No właśnie, bo w sumie po co nam te całe koło kwintowe?",
+    "Wiemy że to jakaś tam kolejność tonacji, ale czy w ogóle muzykom się to przydaje? Nawet nie wiecie, jak bardzo.",
+    "Kiedy mamy jakąś tonację, nie wszyscy od razu są w stanie powiedzieć, jakie ona ma znaki i ile ich ma. Albo na odwrót, kiedy dostajemy utwór, i widzimy że ma jakieś znaki, i musimy dowiedzieć się, jaka to tonacja. W takich sytuacjach używamy właśnie koła kwintowego.",
+    "<b>Ale czy jest jakiś sposób, żeby to spamiętać bez żmudnego kucia na blachę i bezsensownego zapamiętywania? Oczywiście, i to całkiem prosty.</b>",
+    "<strong>Obliczanie tonacji krzyżykowych</strong>",
+    "Potrzebujemy do tego klawiatury fortepianu, albo przynajmniej pamiętać jak ona wygląda. No bo tak, wiemy że zawsze zaczynamy od gamy C-dur, bo nie ma ona żadnych znaków. Jeśli chcemy policzyć gamy krzyżykowe, to idziemy w górę. O 5 wyżej od C jest G - czyli tonacja z jednym krzyżykiem. Jak już mamy tą kwintę, to każdą następną tonację otrzymamy przez przesuwanie jej o cały ton w górę, najpierw ,,prawy palec”, później lewy.",
+    "…Czyli jak? Jeśli mamy lewy palec na C, a prawy na G, to następną tonację znajdziemy przesuwając lewy palec o 2 w górę - na D. Wtedy wiemy, że tonacja z dwoma krzyżykami to D-dur. Prawy palec mieliśmy na G, więc żeby teraz dostać tonację z trzema krzyżykami, też musimy przesunąć go o 2 w górę, to znaczy na A. Tym sposobem otrzymujemy A-dur jako tonację z trzema krzyżykami. Chcąc dostać tonację z czterema krzyżykami, znów przesuwamy lewy palec o 2 w górę, z D na E, a jeśli chcemy tonację z pięcioma krzyżykami, prawy palec przesuwamy o 2 w górę z A na H. I w końcu, przy tonacji z sześcioma krzyżykami przesuwamy lewy palec z E na Fis.",
+    "<strong>Obliczanie tonacji bemolowych</strong>",
+    "Przy tonacjach bemolowych działa to podobnie, tyle że w dół. Zaczynamy od C, i 5 w dół mamy F, czyli gamę z jednym bemolem. Prawy palec przesuwamy o 2 w dół, i otrzymujemy wtedy B, gamę z dwoma bemolami. Następnie lewy palec przesuwamy z F na Es, i już wiemy, że gama Es-dur ma trzy bemole. Cztery bemole w takim razie będzie mieć gama o 2 niżej od B, czyli As, a pięć bemoli dostaniemy kiedy lewy palec przesuniemy z Es na Des. No i oczywiście gama z sześcioma bemolami znajduje się o 2 niżej od As, czyli jest to nasza Ges, która enharmonicznie odpowiada gamie Fis.",
+    "<strong>Znajdowanie znaków gam molowych</strong>",
+    "Dla przykładu jak to wygląda w gamach molowych: chcemy się dowiedzieć, ile znaków ma f-moll. Liczymy od niej 3> w górę, i wiemy że jej surowa paralela to As. No i liczymy ile znaków ma As-dur (cztery bemole), i wiemy, że takie same znaki będzie mieć f-moll.",
+    
+        ]
+         },
+       {  id: "Skale Modalne",
+  title: "Skale Modalne",
+  heading: "Skale Modalne",
+  subtitle: "Alternatywne systemu tonalne",
+  body: [ 
+    "W muzyce obecnie w większości korzystamy z tak zwanego systemu <i>dur-moll</i>, tonalnego. Jest on oparty na kole kwintowym.",
+    "Jednak system ten powstał dopiero około I połowy XVIII wieku, a popularność zyskał jeszcze później.",
+    "Wcześniej posługiwano się między innymi systemem skal nazywanych modalnymi, czy inaczej średniowiecznymi lub kościelnymi.",
+    "<small><i>(Ciekawostka: na nich oparty jest cały Chorał Gregoriański)</i></small>",
+    "Były to 4 skale główne oraz 4 poboczne, jednak my skupimy się na głównych, które są spośród nich najbardziej ,,zachowane”",
+    "<ol><strong>Główne skale modalne:</strong> <b><li>Dorycka</li><li>Frygijska</li><li>Lidyjska</li><li>Miksolidyjska</li></b></ol>", 
+    "Każda z nich zaczyna się od innego dźwięku. Układają się po kolei <b>od d do g</b>. Od danego dźwięku oryginalnie zaczynająca się skala to 7 następnych „białych klawiszy”, więc półtony znajdują się w nich w różnych miejscach. W związku z tym, że każda skala modalna ma swój ustalony dźwięk, od jakiego się zaczyna, nazywano je także ,,modusami”  plus nazwą solmizacyjną dźwięku, od którego się zaczynały.",
+    "<Strong>Skala Dorycka</strong>",
+    "Pierwsza jest skala dorycka, rzadziej nazywana modusem re. Jej nazwa przeszła także na charakterystyczny interwał, jaki posiada - seksty doryckiej (6), znajdującej się pomiędzy I a VI jej stopniem. Jak wskazuje na to jej druga nazwa, zaczyna się od „re” czyli d.Z tego wynika, że półtony znajdują się w niej między II a III oraz VI a VII dźwiękiem",
+    '<img src="S1.png">',
+    "<Strong>Skala Frygisjka</strong>",
+    "Druga skala to skala frygijska - inaczej modus mi. Zaczyna się od e, a jej charakterystycznym interwałem jest sekunda frygijska (2>), która jest bardzo rozpoznawalna przez to, że znajduje się na samym początku, pomiędzy I a II stopniem. Żadna z tych skal oprócz niej nie zaczyna się od sekundy małej. Jej drugi półton jest między V a VI stopniem.",
+    '<img src="S2.png"">',
+    "<Strong>Skala Lidyjska</strong>",
+    "Trzecia skala to skala lidyjska - modus fa. Jej pierwszym dźwiękiem jest f, półtony znajdują się między IV a V oraz VII i VIII stopniem. Charakterystyczny interwał tej skali to kwarta lidyjska (4<) pomiędzy I a IV jej stopniem.",
+    '<img src="S3.png">',
+    "<Strong>Skala Miksolidyjska</strong>",
+    "Ostatnia z podstawowych skal modalnych to skala miksolidyjska - modus sol. Zaczyna siẹ od g, a jej charakterystycznym interwałem jest septyma miksolidyjska (7) pomiędzy I a VII stopniem. Półtony znajdują się pomiędzy IlI i IV oraz VIi VII stopniami.",
+    '<img src="S4.png">',
+        ]
+        },
         ]
       }
     ]
+    
   },
 
  
@@ -835,7 +1030,7 @@ const SUBJECTS = {
               "<b>Harmonika modalna</b> jest, można powiedzieć, nieco przestarzała. Używano jej od IX do XVI wieku, a opierała się na skalach modalnych (inaczej kościelnych), którym poświęcona jest cała osobna lekcja, więc nie będziemy się tutaj w to zagłębiać.",
               "<b>Harmonika funkcyjna</b> jest już trochę nowocześniejsza od modalnej, ponieważ występowała od XVII do XX wieku. Opierała się na skalach durowej i molowej, a więc tych, których uczymy się w szkole i używamy do dziś. Najważniejszą funkcję w takich gamach odgrywają: <b>tonika (T), subdominanta (S), oraz dominanta (D) - o triadzie harmonicznej</b>, czyli tych trzech funkcjach w gamie, także jest więcej mowa w innej naszej lekcji. Od właśnie tych funkcji, harmonia ta jest nazywana funkcyjną.",
               "<b>Harmonia sonorystyczna</b> jest najbradziej aktualna z tych wszstkich rodzajów, ponieważ używają jej współcześni kompozytorzy. Opiera się na skali chromatycznej, nie ma ona żadnego ośrodka tonalnego (czyli 'ważniejszego' akordu, toniki) a także dominują w niej <b>dysonanse i klastry.</b>",
-              "<small>*dysonans to współbrzmienie brzmiące ostro i nieprzyjemnie, a klaster to duża ilość dźwięków obok siebie grana jednocześnie, tworząca głośne i nieprzyjemne współbrzmienie (jakby ktoś np. usiadł na klawiaturze[do czego oczywiście nie zachęcamy])</small>"
+              "<small><i>*dysonans to współbrzmienie brzmiące ostro i nieprzyjemnie, a klaster to duża ilość dźwięków obok siebie grana jednocześnie, tworząca głośne i nieprzyjemne współbrzmienie (jakby ktoś np. usiadł na klawiaturze[do czego oczywiście nie zachęcamy])</i></small>"
 
             ]
           },
@@ -1214,15 +1409,419 @@ const SUBJECTS = {
       }
     }
   `
-}
-        ]
+},
+{
+  id: "Rozpoznawanie kluczy",
+  title: "Rozpoznawanie kluczy",
+  heading: "Przyporządkowywanie nazw kluczy",
+  subtitle: "Wszystkie klucze G, F i C",
+  body: [
+    `<div style="display:flex;flex-direction:column;gap:18px;">
+
+      <!-- LICZNIK -->
+      <div style="
+        display:inline-flex;align-items:center;gap:20px;
+        padding:10px 22px;border-radius:999px;
+        background:rgba(255,255,255,0.65);
+        border:1px solid rgba(183,154,232,0.3);
+        box-shadow:0 4px 16px rgba(120,90,160,0.1);
+        font-size:16px;font-weight:700;width:fit-content;
+      ">
+        <span>Dobrze: <span id="imgCorrectCount" style="color:#3f9e6b;">0</span></span>
+        <span>Źle: <span id="imgWrongCount" style="color:#d9608e;">0</span></span>
+      </div>
+
+      <!-- PRZYCISK LOSUJ -->
+      <div>
+        <button onclick="randomImage()" style="
+          padding:12px 26px;border:none;border-radius:14px;
+          font-size:15px;font-weight:700;color:#fff;cursor:pointer;
+          background:linear-gradient(120deg,#e7a9cf,#b79ae8 60%,#8fc2ed);
+          box-shadow:0 4px 14px rgba(120,90,160,0.18);
+          transition:transform .25s ease;
+        "
+        onmouseover="this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.transform='translateY(0)'">
+          ▶ Losuj
+        </button>
+      </div>
+
+      <!-- OBRAZEK -->
+      <div id="img-container" style="
+        width:220px;height:180px;
+        border-radius:18px;
+        background:rgba(255,255,255,0.5);
+        border:1px solid rgba(183,154,232,0.3);
+        box-shadow:0 4px 18px rgba(120,90,160,0.1);
+        display:flex;align-items:center;justify-content:center;
+        overflow:hidden;
+      ">
+        <span style="color:#b79ae8;font-size:14px;">Gotowy? (ദ്ദി ˙ᗜ˙ )✧ 𝄞 𝄢 𝄡</span>
+      </div>
+
+      <!-- PRZYCISKI ODPOWIEDZI -->
+      <div id="img-answer-buttons" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+
+      <!-- FEEDBACK -->
+      <div id="img-feedback" style="
+        min-height:36px;font-size:17px;font-weight:700;
+        padding:10px 18px;border-radius:14px;
+        background:transparent;transition:all .3s ease;
+      "></div>
+
+    </div>`
+  ],
+  script: `
+    /* ============================================================ */
+    var IMG_DATA = [
+      { src: 'K1.png', label: 'Dyszkoantowy' },
+      { src: 'K2.png', label: 'Wiolinowy' },
+      { src: 'K3.png', label: 'Barytonowy' },
+      { src: 'K4.png', label: 'Basowy' },
+      { src: 'K5.png', label: 'Subbasowy' },
+      { src: 'K6.png', label: 'Sopranowy' },
+      { src: 'K7.png', label: 'Mezzosopranowy' },
+      { src: 'K8.png', label: 'Altowy' },
+      { src: 'K9.png', label: 'Tenorowy' },
+    ];
+    /* ============================================================ */
+
+     var imgCorrect = 0;
+    var imgWrong   = 0;
+    var imgCurrentIndex = -1;
+
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
       }
+      return a;
+    }
+
+    window.randomImage = function() {
+      var idx;
+      do { idx = Math.floor(Math.random() * IMG_DATA.length); }
+      while (idx === imgCurrentIndex && IMG_DATA.length > 1);
+      imgCurrentIndex = idx;
+
+      var container = document.getElementById('img-container');
+      container.innerHTML = '<img src="' + IMG_DATA[idx].src + '" style="width:100%;height:100%;object-fit:contain;border-radius:16px;" alt="?">';
+
+      var fb = document.getElementById('img-feedback');
+      fb.textContent = '';
+      fb.style.background = 'transparent';
+
+      var wrong = shuffle(IMG_DATA.filter(function(_, i){ return i !== idx; })).slice(0, 3);
+      var options = shuffle(wrong.concat([IMG_DATA[idx]]));
+
+      var wrap = document.getElementById('img-answer-buttons');
+      wrap.innerHTML = '';
+
+      options.forEach(function(opt) {
+        var btn = document.createElement('button');
+        btn.textContent = opt.label;
+        btn.style.cssText = 'padding:10px 20px;border:none;border-radius:12px;font-size:14px;font-weight:600;color:#3a2f4d;cursor:pointer;background:rgba(255,255,255,0.6);border:1px solid rgba(183,154,232,0.3);box-shadow:0 2px 8px rgba(120,90,160,0.08);transition:transform .2s ease,background .2s ease;';
+        btn.onmouseover = function(){ this.style.background='rgba(217,199,244,0.7)'; this.style.transform='translateY(-2px)'; };
+        btn.onmouseout  = function(){ this.style.background='rgba(255,255,255,0.6)'; this.style.transform='translateY(0)'; };
+        btn.addEventListener('click', function() {
+          window.checkImageAnswer(IMG_DATA.indexOf(opt));
+        });
+        wrap.appendChild(btn);
+      });
+    };
+
+    window.checkImageAnswer = function(chosenIndex) {
+      var fb = document.getElementById('img-feedback');
+      if (chosenIndex === imgCurrentIndex) {
+        imgCorrect++;
+        document.getElementById('imgCorrectCount').textContent = imgCorrect;
+        fb.textContent = '✓ Dobrze!';
+        fb.style.background = 'rgba(63,158,107,0.12)';
+        fb.style.color = '#2f8f5e';
+      } else {
+        imgWrong++;
+        document.getElementById('imgWrongCount').textContent = imgWrong;
+        fb.textContent = '✗ Źle — Jeśli nie pamiętasz, wróć do notatki "klucze" w zakładce kształcenie słuchu ( • ᴗ - ) ✧';
+        fb.style.background = 'rgba(217,96,142,0.1)';
+        fb.style.color = '#c84e84';
+      }
+    };
+`
+
+},
+{
+  id: "Rozpoznawanie gam po znakach przykluczowych",
+  title: "Rozpoznawanie gam po znakach przykluczowych",
+  heading: "Rozpoznawanie gam po znakach przykluczowych",
+  subtitle: "Wybierz pasującą tonację molową i durową do wylosowanych znakó przy kluczu",
+  body: [
+    `<div style="display:flex;flex-direction:column;gap:18px;">
+
+      <!-- LICZNIK -->
+      <div style="
+        display:inline-flex;align-items:center;gap:20px;
+        padding:10px 22px;border-radius:999px;
+        background:rgba(255,255,255,0.65);
+        border:1px solid rgba(183,154,232,0.3);
+        box-shadow:0 4px 16px rgba(120,90,160,0.1);
+        font-size:16px;font-weight:700;width:fit-content;
+      ">
+        <span>Dobrze: <span id="d2CorrectCount" style="color:#3f9e6b;">0</span></span>
+        <span>Źle: <span id="d2WrongCount" style="color:#d9608e;">0</span></span>
+      </div>
+
+      <!-- PRZYCISK LOSUJ -->
+      <div>
+        <button onclick="d2Random()" style="
+          padding:12px 26px;border:none;border-radius:14px;
+          font-size:15px;font-weight:700;color:#fff;cursor:pointer;
+          background:linear-gradient(120deg,#e7a9cf,#b79ae8 60%,#8fc2ed);
+          box-shadow:0 4px 14px rgba(120,90,160,0.18);
+          transition:transform .25s ease;
+        "
+        onmouseover="this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.transform='translateY(0)'">
+          ▶ Losuj
+        </button>
+      </div>
+
+      <!-- OBRAZEK -->
+      <div id="d2-container" style="
+        width:220px;height:180px;
+        border-radius:18px;
+        background:rgba(255,255,255,0.5);
+        border:1px solid rgba(183,154,232,0.3);
+        box-shadow:0 4px 18px rgba(120,90,160,0.1);
+        display:flex;align-items:center;justify-content:center;
+        overflow:hidden;
+      ">
+        <span style="color:#b79ae8;font-size:14px;">♭ ♯ ♮ Gotowy? ♭ ♯ ♮</span>
+      </div>
+
+      <!-- INFO ile wybrano -->
+      <div id="d2-selection-info" style="font-size:14px;color:#6c5f82;min-height:20px;"></div>
+
+      <!-- PRZYCISK SPRAWDŹ -->
+      <div>
+        <button id="d2-check-btn" onclick="d2Check()" disabled style="
+          padding:10px 22px;border:none;border-radius:12px;
+          font-size:14px;font-weight:700;color:#fff;cursor:not-allowed;
+          background:linear-gradient(120deg,#e7a9cf,#b79ae8 60%,#8fc2ed);
+          opacity:0.4;
+          box-shadow:0 4px 14px rgba(120,90,160,0.1);
+          transition:opacity .25s ease,transform .25s ease;
+        ">Sprawdź</button>
+      </div>
+
+      <!-- WSZYSTKIE OPCJE ODPOWIEDZI -->
+      <div id="d2-answer-buttons" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+
+      <!-- FEEDBACK -->
+      <div id="d2-feedback" style="
+        min-height:36px;font-size:17px;font-weight:700;
+        padding:10px 18px;border-radius:14px;
+        background:transparent;transition:all .3s ease;
+      "></div>
+
+    </div>`
+  ],
+  script: `
+    /* ============================================================
+       TUTAJ UZUPEŁNIJ:
+       - src: nazwa pliku obrazka
+       - labels: dokładnie DWA stringi z poprawnymi odpowiedziami
+         (muszą być takie same jak w ALL_OPTIONS poniżej)
+       ============================================================ */
+    var D2_DATA = [
+      { src: 'Z0.jpg', labels: ['C dur', 'a moll'] },
+      { src: 'ZK1.jpg', labels: ['G dur', 'e moll'] },
+      { src: 'ZB1.jpg', labels: ['F dur', 'd moll'] },
+      { src: 'ZK2.jpg', labels: ['D dur ', 'h moll'] },
+      { src: 'ZB2.jpg', labels: ['B dur', 'g moll'] },
+      { src: 'ZK3.jpg', labels: ['A dur', 'fis moll'] },
+      { src: 'ZB3.jpg', labels: ['Es dur', 'c moll'] },
+      { src: 'ZK4.jpg', labels: ['E dur', 'cis moll'] },
+      { src: 'ZB4.jpg', labels: ['As dur', 'f moll'] },
+      { src: 'ZK5.jpg', labels: ['H dur', 'gis moll'] },
+      { src: 'ZB5.jpg', labels: ['Des dur', 'b moll'] },
+      { src: 'ZK6.jpg', labels: ['Fis dur', 'dis moll'] },
+      { src: 'ZB6.jpg', labels: ['Ges dur', 'es moll'] },
+     /* { src: 'ZK7.jpg', labels: ['Gis dur', 'eis moll'] },
+      { src: 'ZB7.jpg', labels: ['Ces dur', 'as moll'] }, */
+    ];
+
+    /* Pełna lista wszystkich opcji wyświetlanych pod obrazkiem */
+    var D2_ALL_OPTIONS = [
+
+      
+      'C dur','Des dur','D dur','Es dur',
+      'E dur','F dur','Fis dur','Ges dur',
+      'G dur','As dur','A dur','B dur', 
+      'H dur','c moll','cis moll','d moll','dis moll',
+      'es moll','f moll','fis moll','g moll',
+      'gis moll','as moll','a moll','b moll', 
+      'h moll',
+      
+
+   
+    ];
+    /* ============================================================ */
+
+    var d2Correct      = 0;
+    var d2Wrong        = 0;
+    var d2CurrentIndex = -1;
+    var d2Selected     = [];   /* max 2 kliknięte indeksy z D2_ALL_OPTIONS */
+    var d2Answered     = false;
+
+    window.d2Random = function() {
+      var idx;
+      do { idx = Math.floor(Math.random() * D2_DATA.length); }
+      while (idx === d2CurrentIndex && D2_DATA.length > 1);
+      d2CurrentIndex = idx;
+      d2Selected     = [];
+      d2Answered     = false;
+
+      /* obrazek */
+      document.getElementById('d2-container').innerHTML =
+        '<img src="' + D2_DATA[idx].src + '" style="width:100%;height:100%;object-fit:contain;border-radius:16px;" alt="?">';
+
+      /* reset feedback i info */
+      var fb = document.getElementById('d2-feedback');
+      fb.textContent = '';
+      fb.style.background = 'transparent';
+      document.getElementById('d2-selection-info').textContent = 'Wybierz dwie odpowiedzi.';
+
+      /* zablokuj przycisk Sprawdź */
+      var checkBtn = document.getElementById('d2-check-btn');
+      checkBtn.disabled = true;
+      checkBtn.style.opacity = '0.4';
+      checkBtn.style.cursor  = 'not-allowed';
+
+      /* renderuj wszystkie przyciski odpowiedzi */
+      var wrap = document.getElementById('d2-answer-buttons');
+      wrap.innerHTML = '';
+
+      D2_ALL_OPTIONS.forEach(function(label, i) {
+        var btn = document.createElement('button');
+        btn.id = 'd2-btn-' + i;
+        btn.textContent = label;
+        btn.style.cssText = [
+          'padding:10px 20px',
+          'border:none',
+          'border-radius:12px',
+          'font-size:14px',
+          'font-weight:600',
+          'color:#3a2f4d',
+          'cursor:pointer',
+          'background:rgba(255,255,255,0.6)',
+          'border:1px solid rgba(183,154,232,0.3)',
+          'box-shadow:0 2px 8px rgba(120,90,160,0.08)',
+          'transition:transform .2s ease,background .2s ease',
+        ].join(';');
+
+        btn.addEventListener('click', function() { d2Toggle(i, btn); });
+        wrap.appendChild(btn);
+      });
+    };
+
+    function d2Toggle(i, btn) {
+      if (d2Answered) return;
+
+      var pos = d2Selected.indexOf(i);
+      if (pos !== -1) {
+        /* odznacz */
+        d2Selected.splice(pos, 1);
+        btn.style.background = 'rgba(255,255,255,0.6)';
+        btn.style.transform  = 'translateY(0)';
+        btn.style.border     = '1px solid rgba(183,154,232,0.3)';
+      } else {
+        if (d2Selected.length >= 2) return; /* max 2 */
+        /* zaznacz */
+        d2Selected.push(i);
+        btn.style.background = 'rgba(183,154,232,0.55)';
+        btn.style.transform  = 'translateY(-2px)';
+        btn.style.border     = '1px solid #b79ae8';
+      }
+
+      var info = document.getElementById('d2-selection-info');
+      var checkBtn = document.getElementById('d2-check-btn');
+
+      if (d2Selected.length === 2) {
+        info.textContent = 'Wybrano 2 — kliknij „Sprawdź".';
+        checkBtn.disabled = false;
+        checkBtn.style.opacity = '1';
+        checkBtn.style.cursor  = 'pointer';
+      } else {
+        info.textContent = 'Wybierz jeszcze ' + (2 - d2Selected.length) + '.';
+        checkBtn.disabled = true;
+        checkBtn.style.opacity = '0.4';
+        checkBtn.style.cursor  = 'not-allowed';
+      }
+    }
+
+    window.d2Check = function() {
+      if (d2Selected.length < 2 || d2Answered) return;
+      d2Answered = true;
+
+      var correctLabels = D2_DATA[d2CurrentIndex].labels;
+      var chosenLabels  = d2Selected.map(function(i){ return D2_ALL_OPTIONS[i]; });
+
+      /* porównaj niezależnie od kolejności */
+      var isCorrect =
+        chosenLabels.length === 2 &&
+        correctLabels.every(function(l){ return chosenLabels.indexOf(l) !== -1; });
+
+      var fb = document.getElementById('d2-feedback');
+
+      /* pokoloruj przyciski */
+      D2_ALL_OPTIONS.forEach(function(label, i) {
+        var btn = document.getElementById('d2-btn-' + i);
+        if (!btn) return;
+        var isCorrectOption = correctLabels.indexOf(label) !== -1;
+        var isChosen        = d2Selected.indexOf(i) !== -1;
+
+        if (isCorrectOption) {
+          btn.style.background = 'rgba(63,158,107,0.2)';
+          btn.style.border     = '1px solid #3f9e6b';
+          btn.style.color      = '#2f8f5e';
+        } else if (isChosen && !isCorrectOption) {
+          btn.style.background = 'rgba(217,96,142,0.15)';
+          btn.style.border     = '1px solid #d9608e';
+          btn.style.color      = '#c84e84';
+        }
+        btn.style.cursor = 'default';
+      });
+
+      if (isCorrect) {
+        d2Correct++;
+        document.getElementById('d2CorrectCount').textContent = d2Correct;
+        fb.textContent    = '✓ Dobrze! Obie odpowiedzi się zgadzają.';
+        fb.style.background = 'rgba(63,158,107,0.12)';
+        fb.style.color      = '#2f8f5e';
+      } else {
+        d2Wrong++;
+        document.getElementById('d2WrongCount').textContent = d2Wrong;
+        fb.textContent    = '✗ Źle. Poprawne odpowiedzi: ' + correctLabels.join(' + ');
+        fb.style.background = 'rgba(217,96,142,0.1)';
+        fb.style.color      = '#c84e84';
+      }
+
+      /* zablokuj przycisk Sprawdź */
+      var checkBtn = document.getElementById('d2-check-btn');
+      checkBtn.disabled = true;
+      checkBtn.style.opacity = '0.4';
+    };
+  `
+}
+
+] }
     ]
   },
 };
 /* ===================================================================== */
 
-let currentSubject = "ks";
+let currentSubject = "";
 
 const appShell = document.querySelector('.app-shell');
 const homeLink = document.getElementById('home-link');
@@ -1233,7 +1832,7 @@ const subjectTilesEl = document.getElementById('subject-tiles');
 
 function setActiveSubjectTile(){
   subjectTilesEl.querySelectorAll('.subject-tile').forEach(t => {
-    t.classList.toggle('active', t.dataset.subject === currentSubject);
+    t.classList.toggle('active', currentSubject !== "" && t.dataset.subject === currentSubject);
   });
 }
 
@@ -1283,9 +1882,10 @@ function renderWelcome(){
   contentArea.innerHTML = `
     <div class="welcome-screen lesson-content">
       <img src="logo.png" alt="LM" width="70" height="70">
-      <h1 class="lesson-title">Witaj na platformie Laboratorium Muzyki</h1>
-      <p class="lesson-subtitle">Wybierz przedmiot z menu u góry,</p>
-      <p class="lesson-body">Najedź kursorem na jedną z lekcji w panelu bocznym, a następnie kliknij wybraną podlekcję, aby zobaczyć jej treść w tym miejscu.</p>
+      <h1 class="lesson-title">Witaj na platformie Laboratorium Muzyki ˖♬⋆.˚𝄞</h1>
+      <p class="lesson-subtitle">Poznaj zasady muzyki dzięki naszym krótkim lekcjom (˶ˆᗜˆ˵)</p>
+      <p class="lesson-body">Wybierz przedmiot z panelu u góry i kliknij na konkretne lekcje z panelu bocznego! 
+        Treść pojawi się w tym miejscu</p>
     </div>
   `;
 }
@@ -1299,9 +1899,9 @@ function renderHomeView(){
   contentArea.innerHTML = `
     <div class="welcome-screen lesson-content">
       <img src="logo.png" alt="LM" width="300" height="300">
-      <h1 class="lesson-title">Witaj na platformie Laboratorium Muzyki</h1>
-      <p class="lesson-subtitle">Wybierz lekcję z przedmiotu po lewej stronie, aby rozpocząć naukę</p>
-      <p class="lesson-body">Najedź kursorem na jedną z lekcji w panelu bocznym, a następnie kliknij wybraną podlekcję, aby zobaczyć jej treść w tym miejscu.</p>
+      <h1 class="lesson-title">Witaj na platformie Laboratorium Muzyki˖ ♬⋆.˚𝄞</h1>
+      <p class="lesson-subtitle">Poznaj muzykę dzięki naszym krótkim lekcjom. (˶ˆᗜˆ˵)</p>
+      <p class="lesson-body">Wybierz przedmiot z panelu u góry i kliknij na konkretne lekcje z panelu bocznego!</p>
     </div>
   `;
 }
@@ -1364,8 +1964,7 @@ subjectTilesEl.querySelectorAll('.subject-tile').forEach(tile => {
 homeLink.addEventListener('click', renderHomeView);
 
 setActiveSubjectTile();
-renderSidebar();
-renderHomeView();
+renderHomeView();;
 
 /* PRELOADER — 0.5s przyciemnionego ekranu z logo, potem płynne przejście */
 window.addEventListener('load', () => {
